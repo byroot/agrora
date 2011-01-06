@@ -5,6 +5,8 @@ gem 'rails', '3.0.3'
 gem "mongoid", "2.0.0.beta.20"
 gem "bson_ext", "1.1.5"
 gem "resque", '1.10.0'
+gem "resque-lock", "0.1.1"
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
