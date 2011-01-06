@@ -1,3 +1,13 @@
+GIT
+  remote: http://byroot@github.com/byroot/mail.git
+  revision: df9dddd4c1e652a402e69aec6c07572d0c0ce8c7
+  specs:
+    mail (2.2.14)
+      activesupport (>= 2.3.6)
+      i18n (>= 0.4.0)
+      mime-types (~> 1.16)
+      treetop (~> 1.4.8)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -36,11 +46,6 @@ GEM
       abstract (>= 1.0.0)
     i18n (0.5.0)
     json (1.4.6)
-    mail (2.2.12)
-      activesupport (>= 2.3.6)
-      i18n (>= 0.4.0)
-      mime-types (~> 1.16)
-      treetop (~> 1.4.8)
     mime-types (1.16)
     mongo (1.1.5)
       bson (>= 1.1.5)
@@ -95,6 +100,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext (= 1.1.5)
+  mail!
   mongoid (= 2.0.0.beta.20)
   rails (= 3.0.3)
   resque (= 1.10.0)
