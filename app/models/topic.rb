@@ -3,9 +3,12 @@ class Topic
   include Mongoid::Document
   include Mongoid::Timestamps
   
+  field :groups, :type => Array
+  
   embeds_one :message
   
   validates_presence_of :message
+  validates_length_of :groups, :minimum => 1
   
   def insert_or_update_message(message)
     parent = find_message_by_references(message.references)

@@ -7,6 +7,8 @@ class Message
   field :body, :type => String
   field :created_at, :type => DateTime
   
+  validates_presence_of :message_id, :subject, :body, :created_at
+  
   embeds_many :responses, :class_name => 'Message'
   embedded_in :parent, :inverse_of => :responses
   

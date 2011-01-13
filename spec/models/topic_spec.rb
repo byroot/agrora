@@ -6,8 +6,28 @@ describe Topic do
   
   it { should have_fields(:created_at).of_type(Time) }
   it { should have_fields(:updated_at).of_type(Time) }
+  it { should have_fields(:groups).of_type(Array) }
+  
   it { should embed_one :message }
   it { should validate_presence_of(:message) }
+  it { should validate_length_of(:groups) }
+  
+  describe 'belongs to groups' do
+    
+    it 'can have multiple groups' do
+      @topic = Fabricate.build(:topic, :groups => %w(comp.lang.ruby comp.lang.c))
+      @topic.save.should be_true
+    end
+    
+    it 'can be found into each of its groups' do
+      expect{
+        expect{
+          Fabricate.build(:topic, :groups => %w(comp.lang.ruby comp.lang.c)).save!
+        }.to change{ Topic.where(:groups => 'comp.lang.ruby').count }.by(1)
+      }.to change{ Topic.where(:groups => 'comp.lang.c').count }.by(1)
+    end
+    
+  end
   
   describe '#insert_or_update_message' do
     

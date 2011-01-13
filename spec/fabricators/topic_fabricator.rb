@@ -1,5 +1,7 @@
 Fabricator :topic do
   
+  groups %w(comp.lang.ruby)
+  
   message do
     Fabricate.build(:message)
   end
