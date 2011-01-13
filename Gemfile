@@ -19,6 +19,7 @@ group :test, :development do
   gem 'mongoid-rspec', '1.3.2'
   gem 'fabrication', '0.9.4'
   gem 'ruby-debug19'
+  gem 'rcov'
 end
 
 
