@@ -5,7 +5,8 @@ defaults: &defaults
   #     port: 27018
   #   - host: slave2.local
   #     port: 27019
-
+  allow_dynamic_fields: false
+  
 development:
   <<: *defaults
   database: agrora_development
