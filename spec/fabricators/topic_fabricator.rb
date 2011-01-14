@@ -2,25 +2,26 @@ Fabricator :topic do
   
   groups %w(comp.lang.ruby)
   
-  message do
-    Fabricate.build(:message)
+  root '12345@troll.com'
+  responses do
+    [Fabricate.build(:message)]
   end
   
   after_build do |topic|
     
-    first_response = topic.message.responses << Fabricate.build(:message,
+    first_response = topic.responses.first.responses << Fabricate.build(:message,
       :message_id => '23456@troll.com',
       :subject => "Re: Ruby sucks !",
       :body => %{I can't figure out if you'r a troll or if you'r just totaly dumb.}
     )
     
-    second_response = topic.message.responses << Fabricate.build(:message,
+    second_response = topic.responses.first.responses << Fabricate.build(:message,
       :message_id => '45678@troll.com',
       :subject => "Re: Ruby sucks !",
       :body => %{Don't feed the troll !}
     )
 
-    topic.message.responses.first.responses << Fabricate.build(:message,
+    topic.responses.first.responses.first.responses << Fabricate.build(:message,
       :message_id => '34567@troll.com',
       :subject => "Re: Ruby sucks !",
       :body => %{If you don't trust me jsut try yourself:

@@ -2,6 +2,22 @@ require 'nntp'
 
 class NNTPClient
   
+  class Group
+
+    attr_reader :name, :first, :last
+
+    def initialize(name, first=0, last=0)
+      @name = name
+      @first = first.to_i
+      @last = last.to_i
+    end
+
+    def to_s
+      @name
+    end
+  
+  end
+  
   UnknowGroupException = Class.new(Exception)
   
   UnknowArticleException = Class.new(Exception)
@@ -25,7 +41,7 @@ class NNTPClient
     groups = @nntp.list[1]
     groups.each_with_object([]) do |line, listgroup|
       if line.match /^([^\s]+)\s+(\d)+\s+(\d+)/
-        listgroup << Group.new($1, $3, $1)
+        listgroup << NNTPClient::Group.new($1, $3, $1)
       end
     end
   end

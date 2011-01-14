@@ -2,13 +2,23 @@ class Topic
   
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Node
   
   field :groups, :type => Array
+  field :root, :type => String
   
-  embeds_one :message
-  
-  validates_presence_of :message
+  validates_presence_of :root
   validates_length_of :groups, :minimum => 1
+  
+  before_validation :set_root
+  
+  class << self
+    
+    def create_from_message!(message, groups)
+      create!(:responses => [message], :root => message.root, :groups => groups)
+    end
+    
+  end
   
   def insert_or_update_message(message)
     parent = find_message_by_references(message.references)
@@ -23,12 +33,18 @@ class Topic
   end
   
   def find_message_by_references(references)
-    return unless references.last == message.message_id
-    cursor = message
-    references.reverse[1..-1].each do |reference|
-      return unless cursor = cursor.responses_hash[reference]
+    return unless references.last == self.root
+    cursor = self
+    references.reverse.each do |reference|
+      cursor = cursor.responses_hash[reference] || cursor
     end
     cursor
+  end
+  
+  protected
+  
+  def set_root
+    self.root ||= responses.first.message_id if responses.any?
   end
   
 end

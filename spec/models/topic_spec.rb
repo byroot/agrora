@@ -7,9 +7,10 @@ describe Topic do
   it { should have_fields(:created_at).of_type(Time) }
   it { should have_fields(:updated_at).of_type(Time) }
   it { should have_fields(:groups).of_type(Array) }
+  it { should have_fields(:root).of_type(String) }
   
-  it { should embed_one :message }
-  it { should validate_presence_of(:message) }
+  it { should embed_many :responses }
+  it { should validate_presence_of(:root) }
   it { should validate_length_of(:groups) }
   
   describe 'belongs to groups' do
@@ -29,25 +30,43 @@ describe Topic do
     
   end
   
+  describe '#root' do
+    
+    it 'should be set to #responses#.first#message_id as default' do
+      @topic = Fabricate.build(:topic, :root => nil)
+      expect{
+        @topic.save.should be_true
+      }.to change{ @topic.root }.from(nil).to('12345@troll.com')
+    end
+    
+    it 'should not override it if provided' do
+      @topic = Fabricate.build(:topic, :root => '98765@exmaple.com')
+      expect{
+        @topic.save.should be_true
+      }.to_not change{ @topic.root }
+    end
+    
+  end
+  
   describe '#insert_or_update_message' do
     
     it 'should insert new messages' do
       @message = Fabricate.build(:message,
-        :parent => subject.message,
+        :parent => subject.responses.first,
         :message_id => 'unused@troll.com'
       )
       
       expect{
         subject.insert_or_update_message(@message)
       }.to change{
-        subject.reload.message.responses.count
+        subject.reload.responses.first.responses.count
       }.by(1)
     end
     
     it 'should update existing message' do
-      @old_message = subject.message.responses.first
+      @old_message = subject.responses.first.responses.first
       @message = Fabricate.build(:message,
-        :parent => subject.message,
+        :parent => subject.responses.first,
         :message_id => @old_message.message_id,
         :body => 'CENSORED'
       )
@@ -55,9 +74,9 @@ describe Topic do
       expect{
         expect{
           subject.insert_or_update_message(@message)
-        }.to change{ subject.reload.message.responses.first.body }
+        }.to change{ subject.reload.responses.first.responses.first.body }
       }.to_not change{
-        subject.reload.message.responses.count
+        subject.reload.responses.first.responses.count
       }.by(1)
     end
     
@@ -73,6 +92,12 @@ describe Topic do
     it 'should return nil if references are invalid' do
       @references = %w(23456@troll.com 34567@troll.come foo)
       subject.find_message_by_references(@references).should be_nil
+    end
+    
+    it 'should skip missing references' do
+      @references = %w(34567@troll.com 23456@troll.com 12345@troll.com missing_again missing)
+      subject.update_attributes(:root => 'missing')
+      subject.find_message_by_references(@references).message_id.should == '34567@troll.com'
     end
     
   end
