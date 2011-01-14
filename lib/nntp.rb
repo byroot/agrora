@@ -532,7 +532,7 @@ module Net  #:nodoc:
 
     # ARTICLE [<Message-ID>|<Number>]
     def article(id_num = nil)
-      stat, text = longcmd("ARTICLE #{id_num}".strip)
+      stat, text = longcmd("ARTICLE %s", id_num)
       return stat[0..2], text
     end
 
