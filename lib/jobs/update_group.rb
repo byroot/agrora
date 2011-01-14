@@ -14,12 +14,13 @@ module Jobs
     end
     
     def perform!
-      now = DateTime.now
       client.group(group.name)
       client.each_article_since(group.name, group.last_synchronisation_at) do |article|
-        insert_message(build_message(article), article.newsgroups.groups)
+        message = build_message(article)
+        insert_message(message, article.newsgroups.groups)
+        group.update_attributes(:last_synchronisation_at => message.created_at)
       end
-      group.update_attributes(:last_synchronisation_at => now)
+      
     end
     
     def build_message(article)
@@ -34,10 +35,8 @@ module Jobs
     
     def insert_message(message, groups)
       if message.references.any? && topic = Topic.where(:root => message.root).first
-        puts "insert message #{message.message_id}"
         topic.insert_or_update_message(message)
       else
-        puts "create topic #{message.message_id}"
         Topic.create_from_message!(message, groups)
       end
     end
