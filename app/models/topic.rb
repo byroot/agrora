@@ -12,6 +12,8 @@ class Topic
   
   before_validation :set_root
   
+  index :root, :unique => true
+  
   class << self
     
     def create_from_message!(message, groups)
