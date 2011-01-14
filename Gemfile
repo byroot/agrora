@@ -14,6 +14,10 @@ gem "redis-objects", :git => 'http://github.com/byroot/redis-objects.git'
 # NNTP
 gem "mail", :git => 'http://github.com/byroot/mail.git'
 
+# The nntp gem packaging is sooo dirty that for the moment i'm forced to include it in lib.
+# TODO: Since this code is under LGPL, we should clean his packaging and include it as a real gem
+# gem "nntp-lib", :git => 'http://github.com/kinnou02/nntp-lib.git'
+
 group :test, :development do
   gem "rspec-rails", "~> 2.4"
   gem 'mongoid-rspec', '1.3.2'
