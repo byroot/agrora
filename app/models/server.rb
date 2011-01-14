@@ -8,4 +8,6 @@ class Server
   
   validates_presence_of :hostname
   
+  references_many :groups
+  
 end
