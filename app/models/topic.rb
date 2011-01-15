@@ -35,9 +35,9 @@ class Topic
   end
   
   def find_message_by_references(references)
-    return unless references.last == self.root
+    return unless references.first == self.root
     cursor = self
-    references.reverse.each do |reference|
+    references.each do |reference|
       cursor = cursor.responses_hash[reference] || cursor
     end
     cursor

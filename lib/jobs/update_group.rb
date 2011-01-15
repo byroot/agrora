@@ -16,9 +16,16 @@ module Jobs
     def perform!
       client.group(group.name)
       client.each_article_since(group.name, group.last_synchronisation_at) do |article|
-        message = build_message(article)
-        insert_message(message, article.newsgroups.groups)
-        group.update_attributes(:last_synchronisation_at => message.created_at)
+        begin
+          message = build_message(article)
+          insert_message(message, article.newsgroups.groups)
+          group.update_attributes(:last_synchronisation_at => message.created_at)
+        rescue Exception => e
+          puts "#{e.class.name}: #{e.message}"
+          puts e.backtrace
+          puts '-' * 40
+          puts article.to_s
+        end
       end
       
     end

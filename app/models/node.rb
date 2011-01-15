@@ -14,7 +14,7 @@ module Node
   end
   
   def root
-    references.last
+    references.first
   end
   
   private
@@ -26,7 +26,7 @@ module Node
         path << cursor
         cursor = cursor.parent
       end
-    end
+    end.reverse
   end
   
 end

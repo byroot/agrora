@@ -85,17 +85,17 @@ describe Topic do
   describe "#find_message_by_references" do
     
     it 'can find a message from any depth' do
-      @references = %w(34567@troll.com 23456@troll.com 12345@troll.com)
+      @references = %w(12345@troll.com 23456@troll.com 34567@troll.com)
       subject.find_message_by_references(@references).message_id.should == '34567@troll.com'
     end
     
     it 'should return nil if references are invalid' do
-      @references = %w(23456@troll.com 34567@troll.come foo)
+      @references = %w(foo 23456@troll.com 34567@troll.come)
       subject.find_message_by_references(@references).should be_nil
     end
     
     it 'should skip missing references' do
-      @references = %w(34567@troll.com 23456@troll.com 12345@troll.com missing_again missing)
+      @references = %w(missing missing_again 12345@troll.com 23456@troll.com 34567@troll.com)
       subject.update_attributes(:root => 'missing')
       subject.find_message_by_references(@references).message_id.should == '34567@troll.com'
     end
