@@ -30,4 +30,10 @@ class Admin::ServersController < Admin::BaseController
     end
   end
   
+  def destroy
+    @server = find_or_raise!(Server.where :hostname => params[:id])
+    @server.destroy
+    redirect_to :action => :index
+  end
+  
 end

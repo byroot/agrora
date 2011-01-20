@@ -38,7 +38,9 @@ describe Admin::ServersController do
   describe '#create' do
     
     it 'should redirect to index when successful' do
-      post :create, :server => { :hostname => 'news.example.org' }
+      expect{
+        post :create, :server => { :hostname => 'news.example.org' }
+      }.to change { Server.count }.by(1)
       response.should be_redirect
       response.location.should == admin_servers_url
     end
@@ -82,6 +84,12 @@ describe Admin::ServersController do
       response.location.should == admin_servers_url
     end
     
+    it 'should raise DocumentNotFound if server does not exist' do
+      expect{
+        post :update, :id => 'does.not.exist'
+      }.to raise_error(Mongoid::Errors::DocumentNotFound)
+    end
+    
     it 'should render :edit when not successful' do
       post :update, :id => 'news.example.com', :server => { :hostname => 'news.example.com', :port => 'blah' }
       controller.should render_template('edit')
@@ -91,6 +99,27 @@ describe Admin::ServersController do
       expect{
         post :update, :id => 'news.example.com', :server => { :hostname => 'news.free.fr', :port => 119 }
       }.to change{ Server.where(:hostname => 'news.free.fr').count }.from(0).to(1)
+    end
+    
+  end
+  
+  describe '#destroy' do
+    
+    before :each do
+      Fabricate :server
+    end
+    
+    it 'should raise DocumentNotFound if server does not exist' do
+      expect{
+        post :destroy, :id => 'does.not.exist'
+      }.to raise_error(Mongoid::Errors::DocumentNotFound)
+    end
+    
+    
+    it 'should delete server' do
+      expect{
+        post :destroy, :id => 'news.example.com'
+      }.to change{ Server.count }.by(-1)
     end
     
   end
