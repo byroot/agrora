@@ -35,7 +35,7 @@ module Jobs
         :message_id => article.message_id,
         :references => article[:references].try(:message_ids),
         :subject => article.subject,
-        :body => article.body,
+        :body => article.body.decoded,
         :created_at => article.date
       )
     end
