@@ -21,6 +21,25 @@ describe Admin::ServersController do
     
   end
   
+  describe '#show' do
+    
+    before :each do
+      Fabricate :server
+    end
+    
+    it 'should be success' do
+      get :show, :id => 'news.example.com'
+      response.should be_success
+    end
+    
+    it 'should raise DocumentNotFound if server does not exist' do
+      expect{
+        get :edit, :id => 'does.not.exist'
+      }.to raise_error(Mongoid::Errors::DocumentNotFound)
+    end
+    
+  end
+  
   describe '#new' do
     
     it 'should be success' do

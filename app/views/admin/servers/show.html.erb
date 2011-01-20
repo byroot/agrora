@@ -1,0 +1,16 @@
+<h1><%= @server.hostname %></h1>
+
+<p>port: <%= @server.port %></p>
+
+<%- if @server.user.present? %>
+    <p>user: <%= @server.user %></p>
+    <p>secret: <%= @server.secret %></p>
+<%- end -%>
+
+<h2> Groups </h2>
+
+<ul>
+    <%- @server.groups.all.each do |group| -%>
+        <li><%= group.name %></li>
+    <%- end -%>
+</ul>

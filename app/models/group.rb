@@ -7,5 +7,6 @@ class Group
   referenced_in :server
   
   validates_presence_of :server, :name
+  validates_format_of :name, :with => /[az\.]+/
   
 end

@@ -4,6 +4,10 @@ class Admin::ServersController < Admin::BaseController
     @servers = Server.all
   end
   
+  def show
+    @server = find_or_raise!(Server.where :hostname => params[:id])
+  end
+  
   def new
     @server = Server.new
   end

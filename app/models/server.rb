@@ -13,4 +13,8 @@ class Server
   validates_numericality_of :port, :only_integer => true, :greater_than => 0, :less_than => 2 ** 16
   references_many :groups
   
+  def to_param
+    hostname
+  end
+  
 end
