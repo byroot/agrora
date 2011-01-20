@@ -8,6 +8,7 @@ describe Server do
   it { should have_fields(:secret).of_type(String) }
   
   it { should validate_presence_of(:hostname) }
+  it { should validate_uniqueness_of(:hostname) }
   
   it { should reference_many(:groups) }
   

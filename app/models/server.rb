@@ -7,6 +7,7 @@ class Server
   field :secret, :type => String
   
   validates_presence_of :hostname
+  validates_uniqueness_of :hostname
   
   references_many :groups
   

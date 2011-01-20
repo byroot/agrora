@@ -1,0 +1,19 @@
+<div class="row">
+    <%= f.label :hostname %>
+    <%= f.text_field :hostname %>
+</div>
+
+<div class="row">
+    <%= f.label :port %>
+    <%= f.number_field :port, :min => 1, :max => 2 ** 16 %>
+</div>
+
+<div class="row">
+    <%= f.label :user %>
+    <%= f.text_field :user %>
+</div>
+
+<div class="row">
+    <%= f.label :secret %>
+    <%= f.text_field :secret %>
+</div>
