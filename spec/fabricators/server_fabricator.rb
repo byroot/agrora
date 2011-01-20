@@ -1,3 +1,3 @@
 Fabricator(:server) do
-  hostname "news.exmaple.com"
+  hostname "news.example.com"
 end

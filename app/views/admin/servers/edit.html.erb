@@ -1,0 +1,7 @@
+<%= form_for @server, :url => edit_admin_server_path(@server) do |f| %>
+    <%= render 'shared/error_messages', :target => @server %>
+    
+    <%= render 'form', :f => f %>
+    
+    <%= f.submit %>
+<%- end -%>

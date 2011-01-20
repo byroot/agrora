@@ -17,4 +17,17 @@ class Admin::ServersController < Admin::BaseController
     end
   end
   
+  def edit
+    @server = find_or_raise!(Server.where :hostname => params[:id])
+  end
+  
+  def update
+    @server = find_or_raise!(Server.where :hostname => params[:id])
+    if @server.update_attributes(params[:server])
+      redirect_to :action => :index
+    else
+      render :edit
+    end
+  end
+  
 end
