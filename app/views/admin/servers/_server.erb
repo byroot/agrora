@@ -1,0 +1,7 @@
+<%= server.hostname %>
+
+<ul>
+    <%- server.groups.all.each do |group| -%>
+    <li><%= render 'admin/groups/group', :group => group %></li>
+    <%- end -%>
+</ul>

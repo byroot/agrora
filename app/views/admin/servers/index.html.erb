@@ -1,0 +1,6 @@
+
+<ul>
+<%- @servers.each do |server| -%>
+    <li><%= render 'server', :server => server %></li>
+<%- end -%>
+</ul>
