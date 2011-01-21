@@ -9,4 +9,12 @@ class Group
   validates_presence_of :server, :name
   validates_format_of :name, :with => /[az\.]+/
   
+  def to_param
+    name
+  end
+  
+  def topics
+    Topic.in_group(self)
+  end
+  
 end

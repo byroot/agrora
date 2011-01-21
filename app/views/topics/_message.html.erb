@@ -1,0 +1,13 @@
+<div class="message">
+    <h3 class="subject"><%= message.subject %></h3>
+    <div class="body"><%= render_message_body(message.body).html_safe %></div>
+    <%- if message.responses.any? -%>
+    <ul class="responses">
+        <%- message.responses.each do |response| -%>
+        <li class="response">
+            <%= render 'message', :message => response %>
+        </li>
+        <%- end -%>
+    </ul>
+    <%- end -%>
+</div>

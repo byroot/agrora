@@ -1,0 +1,8 @@
+<h1><%= @group.name %></h1>
+
+<ul>
+    <%- @topics.each do |topic| -%>
+        <li><%= link_to topic.subject, group_topic_path(@group, topic) %></li>
+    <%- end -%>
+</ul>
+

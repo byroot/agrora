@@ -14,6 +14,10 @@ class Topic
   
   index :root, :unique => true
   
+  delegate :subject, :to => 'responses.first'
+  
+  scope :in_group, lambda{ |group| where(:groups => group.is_a?(Group) ? group.name : group) }
+  
   class << self
     
     def create_from_message!(message, groups)
