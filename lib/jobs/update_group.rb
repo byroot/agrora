@@ -3,6 +3,8 @@ require 'resque/plugins/lock'
 module Jobs
   class UpdateGroup
     
+    ENCODING_ALIASES = {'utf8' => 'UTF-8'}.freeze
+    
     extend Resque::Plugins::Lock
     
     def self.perform(group_name)
@@ -35,9 +37,19 @@ module Jobs
         :message_id => article.message_id,
         :references => article[:references].try(:message_ids),
         :subject => article.subject,
-        :body => article.body.decoded,
+        :body => utf8_body(article),#article.body.decoded,
         :created_at => article.date
       )
+    end
+    
+    def utf8_body(article)
+      body = article.body.decoded
+      body = body.force_encoding(charset) if body_encoding = encoding(article)
+      body.encode('UTF-8')
+    end
+    
+    def encoding(article)
+      ENCODING_ALIASES[article['content-type'].try(:parameters).try(:[], 'charset')]
     end
     
     def insert_message(message, groups)
