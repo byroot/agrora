@@ -1,3 +1,4 @@
-.message { border: 1px solid grey ; padding-left: 5px; margin-bottom: 5px;}
+.message { border: 1px solid grey ; padding-left: 10px; margin-bottom: 5px;}
 .message .header { margin-top: -10px; }
+.message .body { margin-left: 10px; }
 .message .responses .response { list-style-type: none;}
