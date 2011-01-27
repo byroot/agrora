@@ -21,7 +21,6 @@ module Jobs
         begin
           message = build_message(article)
           insert_message(message, article.newsgroups.groups)
-          group.update_attributes(:last_synchronisation_at => message.created_at)
         rescue Exception => e
           puts "#{e.class.name}: #{e.message}"
           puts e.backtrace
@@ -29,7 +28,7 @@ module Jobs
           puts article.to_s
         end
       end
-      
+      group.update_attributes(:last_synchronisation_at => DateTime.now)
     end
     
     def build_message(article)
