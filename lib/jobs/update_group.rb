@@ -34,22 +34,27 @@ module Jobs
     
     def build_message(article)
       Message.new(
+        :author_name => article[:from].display_names.first,
+        :author_email => article[:from].addresses.first,
         :message_id => article.message_id,
         :references => article[:references].try(:message_ids),
         :subject => article.subject,
-        :body => utf8_body(article),#article.body.decoded,
+        :body => utf8_body(article),
         :created_at => article.date
       )
     end
     
     def utf8_body(article)
       body = article.body.decoded
-      body = body.force_encoding(charset) if body_encoding = encoding(article)
+      if body_encoding = encoding(article)
+        body = body.force_encoding(body_encoding)
+      end
       body.encode('UTF-8')
     end
     
     def encoding(article)
-      ENCODING_ALIASES[article['content-type'].try(:parameters).try(:[], 'charset')]
+      claimed_encoding = article['content-type'].try(:parameters).try(:[], 'charset')
+      ENCODING_ALIASES[claimed_encoding] || claimed_encoding
     end
     
     def insert_message(message, groups)

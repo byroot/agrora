@@ -1,5 +1,11 @@
 <div class="message">
-    <h3 class="subject"><%= message.subject %></h3>
+    <div class="header"></div>
+        <h3 class="subject"><%= message.subject %></h3>
+        <p>
+            <span class="author"><%= message.author_name %></span>
+            <span class="date">at <%= I18n.l(message.created_at) %></span>
+        </p>
+    <div class>
     <div class="body"><%= render_message_body(message.body).html_safe %></div>
     <%- if message.responses.any? -%>
     <ul class="responses">
