@@ -22,5 +22,7 @@ Agrora::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+  
+  ENV['REDIS_URL'] ||= 'redis://127.0.0.1:6379/1'
 end
 

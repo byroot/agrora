@@ -32,4 +32,7 @@ Agrora::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  
+  ENV['REDIS_URL'] ||= 'redis://127.0.0.1:6379/2'
+  
 end
