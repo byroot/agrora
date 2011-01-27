@@ -23,4 +23,5 @@ end
 
 group :development do
   gem 'ruby-debug19'
+  gem "rspec-rails", "~> 2.4" # for rake rspec
 end

@@ -7,7 +7,7 @@ Agrora::Application.routes.draw do
   end
   
   resources :groups, :constraints => { :id => /[a-z\.]+/} do
-    resources :topics, :constraints => { :id => /[a-f0-9]+/}
+    resources :topics, :constraints => { :id => /\d+/}
   end
   
   root :to => 'groups#index'

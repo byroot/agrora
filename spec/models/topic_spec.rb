@@ -30,6 +30,23 @@ describe Topic do
     
   end
   
+  describe '#index' do
+    
+    it 'should be incremented before each topic creation' do
+      expect{
+        Fabricate(:topic)
+      }.to change{ Topic.index_counter.value }.by(1)
+    end
+    
+    it 'should not be incremented on update' do
+      @topic = Fabricate(:topic)
+      expect{
+        @topic.update_attributes!(:root => 'foo')
+      }.to_not change{ Topic.index_counter.value }
+    end
+    
+  end
+  
   describe '#root' do
     
     it 'should be set to #responses#.first#message_id as default' do

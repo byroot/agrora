@@ -2,23 +2,30 @@ class Topic
   
   include Mongoid::Document
   include Mongoid::Timestamps
+  
   include Node
   
   field :groups, :type => Array
   field :root, :type => String
+  field :index, :type => Integer
   
-  validates_presence_of :root
+  validates_presence_of :root, :index
   validates_length_of :groups, :minimum => 1
   
-  before_validation :set_root
+  before_validation :set_root, :set_index
   
   index :root, :unique => true
+  index :index, :unique => true
   
   delegate :subject, :to => 'responses.first'
   
   scope :in_group, lambda{ |group| where(:groups => group.is_a?(Group) ? group.name : group) }
   
   class << self
+    
+    def index_counter
+      @index_counter ||= Redis::Counter.new('topic_index_counter')
+    end
     
     def create_from_message!(message, groups)
       create!(:responses => [message], :root => message.root, :groups => groups)
@@ -47,10 +54,18 @@ class Topic
     cursor
   end
   
+  def to_param
+    index.to_s
+  end
+  
   protected
   
   def set_root
     self.root ||= responses.first.message_id if responses.any?
+  end
+  
+  def set_index
+    self.index ||= self.class.index_counter.increment
   end
   
 end

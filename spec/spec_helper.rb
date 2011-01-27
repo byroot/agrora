@@ -14,6 +14,8 @@ RSpec.configure do |config|
     Mongoid.master.collections.select do |collection|
       collection.name !~ /system/
     end.each(&:drop)
+    
+    Redis.current.flushdb
   end
   
 end

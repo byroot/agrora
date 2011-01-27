@@ -26,7 +26,7 @@ describe TopicsController do
     end
     
     it 'should be success' do
-      get :show, :group_id => 'comp.lang.ruby', :id => Topic.first.id
+      get :show, :group_id => 'comp.lang.ruby', :id => Topic.first.index.to_s
       response.should be_success
     end
     
