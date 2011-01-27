@@ -6,7 +6,7 @@ module TopicsHelper
     text.gsub!(/\r\n?/, "\n")
     text.gsub!(/\n{3,}/, "\n\n")
     #text.gsub!(/^>.*\Z/m, '') # remove quotes # TODO: maybe surround them by a quote tag with toogle display
-    text.gsub(/(\s+)$/, '') # remove trailing blank chars
+    text.gsub!(/(\s+)$/, '') # remove trailing blank chars
     text.gsub!(/^(\s+)/) { |blank_chars| blank_chars.gsub(' ', '&nbsp;') }    
     text.gsub!(/\n.*?:\s*\Z/,  "\n")     # remove top posters's "xxx wrote" like lines
     text.gsub!(/\s*(<\/?[a-z]+>)\s*/, '\1')
