@@ -30,6 +30,12 @@ describe TopicsController do
       response.should be_success
     end
     
+    it 'should raise DocumentNotFound if topic does not exist' do
+      expect{
+        get :show, :group_id => 'comp.lang.ruby', :id => '42'
+      }.to raise_error(Mongoid::Errors::DocumentNotFound)
+    end
+    
   end
   
 end

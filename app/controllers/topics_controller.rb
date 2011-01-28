@@ -5,11 +5,13 @@ class TopicsController < ApplicationController
   end
   
   def show
-    @topic = find_or_raise!(Topic.where :index => params[:id])
+    @topic = find_or_raise!(Topic.where :index => params[:id], :groups => group.name)
   end
   
+  protected
+  
   def group
-    @group = find_or_raise!(Group.where :name => params[:group_id])
+    @group ||= find_or_raise!(Group.where :name => params[:group_id])
   end
   
 end

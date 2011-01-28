@@ -36,7 +36,7 @@ describe Message do
   describe '#indexes' do
     
     it 'should build index array based on messages positions' do
-      subject.indexes.should == [0, 0]
+      subject.indexes.should == [0, 0, 0]
     end
     
   end

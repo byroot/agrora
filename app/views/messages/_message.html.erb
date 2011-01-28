@@ -1,0 +1,27 @@
+<div id="message-<%= message.indexes.join('-') %>" class="message">
+    <div class="header">
+        <h3 class="subject"><%= message.subject %></h3>
+        <p>
+            <span class="author"><%= message.author_name %></span>
+            <span class="date">at <%= I18n.l(message.created_at) %></span>
+        </p>
+    </div>
+    <div class="body">
+        <%= render_message_body(message.body).html_safe %>
+    </div>
+    <div class="actions">
+        <%- unless defined?(dont_render_responses) -%>
+            <%= link_to 'Reply', new_group_topic_message_path(@group, @topic, :parent => message.indexes.join('-')) %>
+        <%- end -%>
+    </div>
+    
+    <%- if message.responses.any? && !defined?(dont_render_responses) -%>
+    <ul class="responses">
+        <%- message.responses.each do |response| -%>
+        <li class="response">
+            <%= render 'messages/message', :message => response %>
+        </li>
+        <%- end -%>
+    </ul>
+    <%- end -%>
+</div>

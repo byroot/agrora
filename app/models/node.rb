@@ -13,7 +13,7 @@ module Node
   end
   
   def indexes
-    @indexes ||= ancestors.map(&:index)
+    @indexes ||= ancestors.map(&:index) + [self.index]
   end
   
   attr_writer :references
