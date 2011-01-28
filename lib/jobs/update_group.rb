@@ -1,15 +1,13 @@
 require 'resque/plugins/lock'
 
 module Jobs
-  class UpdateGroup
+  class UpdateGroup < Jobs::Base
     
     ENCODING_ALIASES = {'utf8' => 'UTF-8'}.freeze
     
     extend Resque::Plugins::Lock
     
-    def self.perform(group_name)
-      self.new(group_name).perform!
-    end
+    delegate :server, :to => :group
     
     def initialize(group_name)
       @group_name = group_name
@@ -66,15 +64,6 @@ module Jobs
     
     def group
       @group ||= Group.where(:name => @group_name).first
-    end
-    
-    def client
-      @client ||= NNTPClient.new(
-        group.server.hostname,
-        group.server.port,
-        group.server.user,
-        group.server.secret
-      )
     end
     
   end

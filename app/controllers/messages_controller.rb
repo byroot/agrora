@@ -7,6 +7,7 @@ class MessagesController < ApplicationController
   def create
     @message = parent.responses.build(params[:message])
     if @message.save
+      Resque.enqueue(Jobs::PostMessage, topic.index, @message.indexes)
       anchor = "message-#{@message.indexes.join('-')}"
       redirect_to group_topic_path(group, topic, :anchor => anchor)
     else

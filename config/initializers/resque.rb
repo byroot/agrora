@@ -1,0 +1,1 @@
+p Resque.redis = Redis.current
