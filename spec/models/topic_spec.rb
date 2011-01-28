@@ -119,4 +119,23 @@ describe Topic do
     
   end
   
+  describe '#find_message_by_indexes' do
+    
+    it 'can find a message from any depth' do
+      @indexes = [0, 0, 0]
+      subject.find_message_by_indexes(@indexes).message_id.should == '34567@troll.com'
+    end
+    
+    it 'should return nil if indexes are invalid' do
+      @indexes = [12, 32, 54]
+      subject.find_message_by_indexes(@indexes).should be_nil
+    end
+    
+    it 'should not skip missing indexes' do
+      @indexes = [0, 12, 0]
+      subject.find_message_by_indexes(@indexes).should be_nil
+    end
+    
+  end
+  
 end

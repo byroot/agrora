@@ -8,6 +8,14 @@ module Node
     @responses_hash ||= responses.index_by(&:message_id)
   end
   
+  def index
+    parent.responses.index(self)
+  end
+  
+  def indexes
+    @indexes ||= ancestors.map(&:index)
+  end
+  
   attr_writer :references
   def references
     @references ||= ancestors.map(&:message_id)
@@ -15,6 +23,9 @@ module Node
   
   def root
     references.first
+  end
+  
+  def parent
   end
   
   private

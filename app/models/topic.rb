@@ -45,6 +45,14 @@ class Topic
     end
   end
   
+  def find_message_by_indexes(indexes)
+    cursor = self
+    indexes.each do |index|
+      cursor = cursor.responses[index] or return
+    end
+    cursor
+  end
+  
   def find_message_by_references(references)
     return unless references.first == self.root
     cursor = self

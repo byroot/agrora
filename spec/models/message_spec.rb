@@ -33,4 +33,12 @@ describe Message do
     
   end
   
+  describe '#indexes' do
+    
+    it 'should build index array based on messages positions' do
+      subject.indexes.should == [0, 0]
+    end
+    
+  end
+  
 end
