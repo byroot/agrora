@@ -5,7 +5,7 @@ module Node
   end
   
   def responses_hash
-    @responses_hash ||= Hash[responses.map{ |r| [r.message_id, r] }]
+    @responses_hash ||= responses.index_by(&:message_id)
   end
   
   attr_writer :references
