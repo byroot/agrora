@@ -1,1 +1,1 @@
-p Resque.redis = Redis.current
+Resque.redis = Redis.current

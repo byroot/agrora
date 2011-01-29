@@ -1,13 +1,14 @@
 Agrora::Application.routes.draw do
   
   namespace :admin do
-    resources :servers, :constraints => { :id => /[a-zA-Z0-9\.\-]+/} do
+    root :to => 'servers#index'
+    resources :servers, :constraints => { :id => /[a-zA-Z0-9\.\-]+/ } do
       resources :groups
     end
   end
   
-  resources :groups, :constraints => { :id => /[a-z\.]+/} do
-    resources :topics, :constraints => { :id => /\d+/} do
+  resources :groups, :constraints => { :id => /[a-z\.]+/ } do
+    resources :topics, :constraints => { :id => /\d+/ } do
       resources :messages
     end
   end
