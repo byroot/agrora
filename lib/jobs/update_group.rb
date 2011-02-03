@@ -3,6 +3,8 @@ require 'resque/plugins/lock'
 module Jobs
   class UpdateGroup < Jobs::Base
     
+    @queue = 'nntp'
+    
     ENCODING_ALIASES = {'utf8' => 'UTF-8'}.freeze
     
     extend Resque::Plugins::Lock
