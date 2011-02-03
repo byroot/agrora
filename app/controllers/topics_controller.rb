@@ -1,9 +1,11 @@
 class TopicsController < ApplicationController
   
+  include Paginate::ControllerExtension
+  
   before_filter :trigger_group_update_if_necessary!
   
   def index
-    @topics = group.topics.limit(50) # TODO: pagination
+    @topics = paginate(group.topics)
   end
   
   def show
@@ -18,6 +20,10 @@ class TopicsController < ApplicationController
   
   def trigger_group_update_if_necessary!
     Resque.enqueue(Jobs::UpdateGroup, group.name) if group.last_synchronisation_at < 10.minutes.ago
+  end
+  
+  def pagination_params
+    DEFAULT_PAGINATION_PARAMS.merge(params.slice(:page, :per_page)).symbolize_keys
   end
   
 end

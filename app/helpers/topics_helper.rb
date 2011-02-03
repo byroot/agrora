@@ -1,5 +1,7 @@
 module TopicsHelper
   
+  include Paginate::ViewHelper
+  
   # TODO: could be improved, maybe by a line oriented parser
   def render_message_body(body)
     text = body.to_s.strip

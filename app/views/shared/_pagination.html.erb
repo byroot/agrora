@@ -1,0 +1,25 @@
+<p class="pagination">
+    <%= link_to 'previous', paginator.previous_page_url, :class => 'previous' unless paginator.first? %>
+    <%= link_to 'first', paginator.first_page_url, :class => 'first' %>
+    
+    <%- start_index = [paginator.page - 4, 1].max -%>
+    
+    <%- if start_index > 1 -%>...<%- end -%>
+    
+    <%- start_index.upto(paginator.page - 1) do |page| -%>
+        <%= link_to page, paginator.page_url(page), :class => 'before' %>
+    <%- end -%>
+    
+    <strong class="current"><%= paginator.page %></strong>
+    
+    <%- end_index = [paginator.page + 4, paginator.pages_count].min -%>
+    
+    <%- (paginator.page + 1).upto(end_index) do |page| -%>
+        <%= link_to page, paginator.page_url(page), :class => 'after' %>
+    <%- end -%>
+    
+    <%- if end_index < paginator.pages_count -%>...<%- end -%>
+    
+    <%= link_to 'last', paginator.last_page_url, :class => 'last' %>
+    <%= link_to 'next', paginator.next_page_url, :class => 'next' unless paginator.last? %>
+</p>
