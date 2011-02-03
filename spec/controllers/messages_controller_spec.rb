@@ -78,6 +78,19 @@ describe MessagesController do
       }.to change { @topic.reload.find_message_by_indexes([0, 0, 1]) }.from(nil).to(instance_of(Message))
     end
     
+    it 'should trigger a PostMessage job if creation is successful' do
+      expect{
+        post :create, :group_id => 'comp.lang.ruby', :topic_id => '1', :parent => '0-0', :message => {
+          :author_email => 'foo@bar.baz', :author_name => 'Foo Bar', :subject => 'Hello World', :body => 'Lorem Ipsum'
+        }
+      }.to change{ Resque.peek('nntp') }.from(nil).to({"class"=>"Jobs::PostMessage", "args"=>[1, [0, 0, 1]]})
+    end
+    
+    it 'should not trigger a PostMessage job if creation failed' do
+      expect{
+        post :create, :group_id => 'comp.lang.ruby', :topic_id => '1'
+      }.to_not change{ Resque.peek('nntp') }
+    end
     
   end
   
