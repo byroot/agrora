@@ -1,4 +1,4 @@
-class MessagesController < ApplicationController
+class MessagesController < BaseController
   
   def new
     @message = parent.responses.build

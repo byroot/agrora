@@ -1,4 +1,4 @@
-class TopicsController < ApplicationController
+class TopicsController < BaseController
   
   include Paginate::ControllerExtension
   

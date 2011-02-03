@@ -1,4 +1,4 @@
-class GroupsController < ApplicationController
+class GroupsController < BaseController
   
   def index
     @groups = Group.all
