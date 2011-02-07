@@ -12,6 +12,8 @@ Agrora::Application.routes.draw do
       resources :messages
     end
   end
+
+  resources :session
   
   root :to => 'groups#index'
   
