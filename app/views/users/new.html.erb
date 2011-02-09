@@ -1,0 +1,7 @@
+<%= form_for @user do |f| %>
+    <%= render 'shared/error_messages', :target => @user %>
+    
+    <%= render 'form', :f => f %>
+    
+    <%= f.submit %>
+<%- end -%>
