@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     end
 
     user = User.find(:first, :conditions => {:activation_token => params[:token]})
-    if user && !user.active
+    if user && !user.active?
       user.activate!
       self.current_user = user
       flash[:notice] = "Account Activated."

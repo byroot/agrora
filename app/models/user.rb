@@ -37,7 +37,7 @@ class User
 
   def self.authenticate(login, pass)
     user = first(:conditions => {:email => login})
-    return user if user && user.matching_password?(pass)
+    return user if user && user.active? && user.matching_password?(pass)
   end
 
   
@@ -47,15 +47,16 @@ class User
     save
   end
 
-  def active
+  def active?
     self.state
   end
-
-  private
 
   def matching_password?(pass)
     self.password_hash == encrypt_password(pass)
   end
+
+  protected
+
     
   def prepare_password
     unless password.blank?
