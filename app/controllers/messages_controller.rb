@@ -1,11 +1,11 @@
 class MessagesController < BaseController
   
   def new
-    @message = parent.responses.build
+    @message = parent.child_messages.build
   end
   
   def create
-    @message = parent.responses.build(params[:message])
+    @message = parent.child_messages.build(params[:message])
     if @message.save
       Resque.enqueue(Jobs::PostMessage, topic.index, @message.indexes)
       anchor = "message-#{@message.indexes.join('-')}"

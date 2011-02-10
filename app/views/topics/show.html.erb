@@ -1,4 +1,4 @@
 
-<%- @topic.responses.each do |message| -%>
+<%- @topic.child_messages.each do |message| -%>
     <%= render 'messages/message', :message => message %>
 <%- end -%>

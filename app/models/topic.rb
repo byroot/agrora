@@ -1,23 +1,18 @@
-class Topic
+class Topic < Message
   
-  include Mongoid::Document
   include Mongoid::Timestamps
   
-  include Node
-  
   field :groups, :type => Array
-  field :root, :type => String
   field :index, :type => Integer
+  field :root, :type => String
   
-  validates_presence_of :root, :index
+  validates_presence_of :index
   validates_length_of :groups, :minimum => 1
   
-  before_validation :set_root, :set_index
+  before_validation :set_index, :set_root
   
-  index :root, :unique => true
+  index :message_id, :unique => true
   index :index, :unique => true
-  
-  delegate :subject, :to => 'responses.first'
   
   scope :in_group, lambda{ |group| where(:groups => group.is_a?(Group) ? group.name : group) }
   
@@ -28,19 +23,19 @@ class Topic
     end
     
     def create_from_message!(message, groups)
-      create!(:responses => [message], :root => message.root, :groups => groups)
+      create!(:child_messages => [message], :root => message.root, :groups => groups)
     end
     
   end
   
   def insert_or_update_message(message)
     parent = find_message_by_references(message.references)
-    if old_message = parent.responses_hash[message.message_id] # update
+    if old_message = parent.child_messages_hash[message.message_id] # update
       old_message.update_attributes!(message.attributes.except(:_id))
     else
-      parent.responses << message
+      parent.child_messages << message
       if message.save
-        parent.responses_hash[message.message_id] = message
+        parent.child_messages_hash[message.message_id] = message
       end
     end
   end
@@ -48,16 +43,16 @@ class Topic
   def find_message_by_indexes(indexes)
     cursor = self
     indexes.each do |index|
-      cursor = cursor.responses[index] or return
+      cursor = cursor.child_messages[index] or return
     end
     cursor
   end
   
   def find_message_by_references(references)
-    return unless references.first == self.root
+    return unless references.first == self.message_id
     cursor = self
     references.each do |reference|
-      cursor = cursor.responses_hash[reference] || cursor
+      cursor = cursor.child_messages_hash[reference] || cursor
     end
     cursor
   end
@@ -69,7 +64,7 @@ class Topic
   protected
   
   def set_root
-    self.root ||= responses.first.message_id if responses.any?
+    self.root ||= self.message_id
   end
   
   def set_index

@@ -3,8 +3,8 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.3'
 
 # MongoDB
-gem "mongoid", "2.0.0.beta.20"
-gem "bson_ext", "1.1.5"
+gem "mongoid", "2.0.0.rc.7"
+gem "bson_ext", "1.2.0"
 
 # Redis
 gem "resque", '1.10.0'
@@ -16,7 +16,7 @@ gem "mail", :git => 'http://github.com/byroot/mail.git'
 
 group :test do
   gem "rspec-rails", "~> 2.4"
-  gem 'mongoid-rspec', '1.3.2'
+  gem 'mongoid-rspec', :git => 'http://github.com/durran/mongoid-rspec.git'
   gem 'fabrication', '0.9.4'
   gem 'rcov'
 end

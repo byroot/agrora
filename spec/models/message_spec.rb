@@ -2,9 +2,12 @@ require 'spec_helper'
 
 describe Message do
   
-  subject do
+  before :each do
     @topic = Fabricate(:topic)
     @references = %w(12345@troll.com 23456@troll.com 34567@troll.com)
+  end
+  
+  subject do
     @message = @topic.find_message_by_references(@references)
   end
   
@@ -36,7 +39,12 @@ describe Message do
   describe '#indexes' do
     
     it 'should build index array based on messages positions' do
-      subject.indexes.should == [0, 0, 0]
+      subject.indexes.should == [0, 0]
+    end
+    
+    
+    it 'should be consistent' do
+      @topic.find_message_by_indexes(subject.indexes).should == subject
     end
     
   end

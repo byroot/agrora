@@ -2,26 +2,26 @@ Fabricator :topic do
   
   groups %w(comp.lang.ruby)
   
-  root '12345@troll.com'
-  responses do
-    [Fabricate.build(:message)]
-  end
+  message_id '12345@troll.com'
+  subject "Ruby sucks !"
+  author_name "Hebus The Troll"
+  author_email "hebus@example.com"
+  body %{I've just made a benchmark, Ruby is 13.5 times slower than C. This is so lame !}
+  created_at DateTime.new(2010, 1, 12, 9, 50, 36)
+
+  # child_messages do
+  #   [Fabricate.build(:message)]
+  # end
   
-  after_build do |topic|
+  after_create do |topic|
     
-    first_response = topic.responses.first.responses << Fabricate.build(:message,
+    first_response = topic.child_messages << Fabricate.build(:message,
       :message_id => '23456@troll.com',
       :subject => "Re: Ruby sucks !",
       :body => %{I can't figure out if you'r a troll or if you'r just totaly dumb.}
     )
-    
-    second_response = topic.responses.first.responses << Fabricate.build(:message,
-      :message_id => '45678@troll.com',
-      :subject => "Re: Ruby sucks !",
-      :body => %{Don't feed the troll !}
-    )
 
-    topic.responses.first.responses.first.responses << Fabricate.build(:message,
+    topic.child_messages.first.child_messages << Fabricate.build(:message,
       :message_id => '34567@troll.com',
       :subject => "Re: Ruby sucks !",
       :body => %{If you don't trust me jsut try yourself:
@@ -45,6 +45,12 @@ Fabricator :topic do
           puts "Hello world"
         
       }
+    )
+    
+    topic.child_messages.first.child_messages << Fabricate.build(:message,
+      :message_id => '45678@troll.com',
+      :subject => "Re: Ruby sucks !",
+      :body => %{Don't feed the troll !}
     )
     
   end

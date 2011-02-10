@@ -15,9 +15,9 @@
         <%- end -%>
     </div>
     
-    <%- if message.responses.any? && !defined?(dont_render_responses) -%>
+    <%- if message.child_messages.any? && !defined?(dont_render_responses) -%>
     <ul class="responses">
-        <%- message.responses.each do |response| -%>
+        <%- message.child_messages.each do |response| -%>
         <li class="response">
             <%= render 'messages/message', :message => response %>
         </li>
