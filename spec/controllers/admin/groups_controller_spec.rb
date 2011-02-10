@@ -73,6 +73,22 @@ describe Admin::GroupsController do
       response.location.should == admin_server_url(@server)
     end
     
+    it 'should trigger update for groups newly added' do
+      expect{
+        post :create, :server_id => 'news.example.com', :groups => %w(comp.lang.c)
+      }.to trigger(Jobs::UpdateGroup).with('comp.lang.c').in('nntp')
+    end
+    
+    it 'should destroy orphan groups' do
+      @group = Group.first(:conditions => {:name => 'comp.lang.python'})
+      @other_server = Fabricate(:server, :hostname => 'news.fox.org', :groups => [@group])
+      @group.save
+      
+      expect{
+        post :create, :server_id => 'news.example.com', :groups => []
+      }.to change{ Group.count }.by(-1)
+    end
+    
   end
   
 end

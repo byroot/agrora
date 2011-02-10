@@ -11,9 +11,24 @@ class Admin::GroupsController < Admin::BaseController
   end
   
   def create
-    @groups = (params[:groups] || []).map{ |g| Group.find_or_create_by(:name => g) }
-    server.groups.substitute(@groups, :continue => true)
+    future_groups = params[:groups] || []
+    current_groups = server.groups.map(&:name)
+    new_groups = future_groups - current_groups
+    old_groups = current_groups - future_groups
+    
+    @groups = future_groups.map{ |g| Group.find_or_create_by(:name => g) }
+    server.groups.tap(&:nullify).substitute(@groups, :continue => true)
     if server.save
+      # Trigger update for groups newly created
+      new_groups.each{ |g| Resque.enqueue(Jobs::UpdateGroup, g) }
+      
+      # Destroy orphan groups
+      old_groups.each do |group_name|
+        group = Group.first(:conditions => {:name => group_name})
+        p group.reload.servers.map(&:hostname)
+        group.destroy if group.servers.empty?
+      end
+      
       redirect_to admin_server_url(server)
     else
       render :new
