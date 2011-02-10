@@ -64,6 +64,14 @@ describe Admin::ServersController do
       response.location.should == admin_servers_url
     end
     
+    it 'should consider blank user & secret as nil' do
+      expect{
+        post :create, :server => { :hostname => 'news.example.org' }
+      }.to change { Server.count }.from(0).to(1)
+      Server.first.user.should be_nil
+      Server.first.secret.should be_nil
+    end
+    
     it 'should render :new when not successfull' do
       post :create
       controller.should render_template('new')
