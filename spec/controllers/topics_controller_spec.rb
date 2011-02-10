@@ -67,6 +67,11 @@ describe TopicsController do
       response.should be_success
     end
     
+    it 'should be succes if Topic#id is suffixed by a slug' do
+      get :show, :group_id => 'comp.lang.ruby', :id => "#{Topic.first.index}-my-cool-slug"
+      response.should be_success
+    end
+    
     it 'should raise DocumentNotFound if topic does not exist' do
       expect{
         get :show, :group_id => 'comp.lang.ruby', :id => '42'

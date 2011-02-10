@@ -22,7 +22,7 @@ class MessagesController < BaseController
   end
   
   def topic
-    @topic ||= find_or_raise!(Topic.where :index => params[:topic_id], :groups => group.name)
+    @topic ||= find_or_raise!(Topic.where :index => params[:topic_id].to_i, :groups => group.name)
   end
   
   def group

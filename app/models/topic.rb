@@ -59,7 +59,7 @@ class Topic < Message
   end
   
   def to_param
-    index.to_s
+    "#{index}-#{subject}".parameterize
   end
   
   protected
