@@ -43,14 +43,14 @@ describe TopicsController do
     it 'should trigger an UpdateGroup job if necessary' do
       expect{
         get :index, :group_id => 'comp.lang.ruby'
-      }.to change{ Resque.peek('nntp') }.from(nil).to({"class"=>"Jobs::UpdateGroup", "args"=>["comp.lang.ruby"]})
+      }.to trigger(Jobs::UpdateGroup).with('comp.lang.ruby').in('nntp')
     end
 
     it 'should not trigger an UpdateGroup job if it is not necessary' do
       @group.update_attributes!(:last_synchronisation_at => DateTime.now)
       expect{
         get :index, :group_id => 'comp.lang.ruby'
-      }.to_not change{ Resque.peek('nntp') }
+      }.to_not trigger(Jobs::UpdateGroup).with('comp.lang.ruby').in('nntp')
     end
     
   end
@@ -76,14 +76,14 @@ describe TopicsController do
     it 'should trigger an UpdateGroup job' do
       expect{
         get :show, :group_id => 'comp.lang.ruby', :id => Topic.first.index.to_s
-      }.to change{ Resque.peek('nntp') }.from(nil).to({"class"=>"Jobs::UpdateGroup", "args"=>["comp.lang.ruby"]})
+      }.should trigger(Jobs::UpdateGroup).with('comp.lang.ruby').in('nntp')
     end
     
     it 'should not trigger an UpdateGroup job if it is not necessary' do
       @group.update_attributes!(:last_synchronisation_at => DateTime.now)
       expect{
         get :show, :group_id => 'comp.lang.ruby', :id => Topic.first.index.to_s
-      }.to_not change{ Resque.peek('nntp') }
+      }.to_not trigger(Jobs::UpdateGroup).with('comp.lang.ruby').in('nntp')
     end
     
   end
