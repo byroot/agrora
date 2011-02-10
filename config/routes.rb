@@ -1,7 +1,7 @@
 Agrora::Application.routes.draw do
   
   namespace :admin do
-    root :to => 'servers#index'
+    root :to => 'base#index'
     resources :servers, :constraints => { :id => /[a-zA-Z0-9\.\-]+/ } do
       resources :groups
     end
