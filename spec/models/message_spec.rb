@@ -39,9 +39,8 @@ describe Message do
   describe '#indexes' do
     
     it 'should build index array based on messages positions' do
-      subject.indexes.should == [0, 0]
+      subject.indexes.should == [1, 0, 0]
     end
-    
     
     it 'should be consistent' do
       @topic.find_message_by_indexes(subject.indexes).should == subject

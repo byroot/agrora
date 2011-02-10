@@ -23,7 +23,7 @@ class Topic < Message
     end
     
     def create_from_message!(message, groups)
-      create!(:child_messages => [message], :root => message.root, :groups => groups)
+      create!(message.attributes.merge(:root => message.root, :groups => groups))
     end
     
   end
@@ -41,15 +41,16 @@ class Topic < Message
   end
   
   def find_message_by_indexes(indexes)
+    return unless indexes.first == self.index
     cursor = self
-    indexes.each do |index|
+    indexes[1..-1].each do |index|
       cursor = cursor.child_messages[index] or return
     end
     cursor
   end
   
   def find_message_by_references(references)
-    return unless references.first == self.message_id
+    return unless references.first == self.root
     cursor = self
     references.each do |reference|
       cursor = cursor.child_messages_hash[reference] || cursor

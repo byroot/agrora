@@ -29,7 +29,7 @@ class Message
   end
   
   def indexes
-    @indexes ||= ancestors[1..-1].map(&:index) + [self.index]
+    @indexes ||= (ancestors + [self]).map(&:index)
   end
   
   alias :index :_index

@@ -1,0 +1,16 @@
+<%- unless @exception -%>
+    <%- current_groups = params[:groups] || @server.groups.map(&:name) -%>
+    <%= form_tag admin_server_groups_path(@server) do %>
+    <ul>
+        <%- @available_groups.each do |group| -%>
+        <li>
+            <%= check_box_tag 'groups[]', group.name, current_groups.include?(group.name), :id => "group-#{group.name}" %>
+            <%= label_tag "group-#{group.name}", group.name %>
+        </li>
+        <%- end -%>
+    </ul>
+    <%= submit_tag 'Save' %>
+    <%- end -%>
+<%- else -%>
+    <p class="error">Can't contact the server: <%= @exception.message %></p>
+<%- end -%>

@@ -2,11 +2,12 @@ class Group
   include Mongoid::Document
   
   field :name, :type => String
-  field :server, :type => Server
   field :last_synchronisation_at, :type => DateTime, :default => DateTime.new(1970)
-  referenced_in :server
+  references_and_referenced_in_many :servers
   
-  validates_presence_of :server, :name
+  index :name, :unique => true
+  
+  validates_presence_of :name
   validates_format_of :name, :with => /[az\.]+/
   
   def to_param

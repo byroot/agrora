@@ -18,12 +18,18 @@ class NNTPClient
   
   end
   
-  UnknowGroupException = Class.new(Exception)
+  NNTPException = Class.new(Exception)
   
-  UnknowArticleException = Class.new(Exception)
+  UnknowGroupException = Class.new(NNTPException)
+  
+  UnknowArticleException = Class.new(NNTPException)
+  
+  NetworkFailureException = Class.new(NNTPException)
   
   def initialize(host='localhost', port=119, user=nil, secret=nil, method=nil)
     @nntp = Net::NNTP.start(host, port, user, secret, method)
+  rescue Errno::ECONNREFUSED => e
+    raise NetworkFailureException.new(e.message)
   end
   
   def post(article)

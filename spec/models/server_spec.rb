@@ -10,7 +10,7 @@ describe Server do
   it { should validate_presence_of(:hostname) }
   it { should validate_uniqueness_of(:hostname) }
   
-  it { should reference_many(:groups) }
+  it { should reference_and_be_referenced_in_many(:groups) }
   
   it 'should use 119 as default port' do
     Server.new.port.should == 119

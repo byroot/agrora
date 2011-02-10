@@ -7,7 +7,7 @@ class MessagesController < BaseController
   def create
     @message = parent.child_messages.build(params[:message])
     if @message.save
-      Resque.enqueue(Jobs::PostMessage, topic.index, @message.indexes)
+      Resque.enqueue(Jobs::PostMessage, @message.indexes)
       anchor = "message-#{@message.indexes.join('-')}"
       redirect_to group_topic_path(group, topic, :anchor => anchor)
     else
@@ -18,7 +18,7 @@ class MessagesController < BaseController
   protected
   
   def parent
-    @parent ||= topic.find_message_by_indexes((params[:parent] || '').split('-').map(&:to_i))
+    @parent ||= topic.find_message_by_indexes([topic.index] + (params[:parent] || '').split('-').map(&:to_i))
   end
   
   def topic

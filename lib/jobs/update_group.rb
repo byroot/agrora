@@ -16,19 +16,27 @@ module Jobs
     end
     
     def perform!
-      client.group(group.name)
-      client.each_article_since(group.name, group.last_synchronisation_at) do |article|
+      on_each_server do |client|
         begin
-          message = build_message(article)
-          insert_message(message, article.newsgroups.groups)
-        rescue Exception => e
-          puts "#{e.class.name}: #{e.message}"
-          puts e.backtrace
-          puts '-' * 40
-          puts article.to_s
+          client.group(group.name)
+          client.each_article_since(group.name, group.last_synchronisation_at) do |article|
+            begin
+              message = build_message(article)
+              insert_message(message, article.newsgroups.groups)
+            rescue Exception => e
+              puts "#{e.class.name}: #{e.message}"
+              puts e.backtrace
+              puts '-' * 40
+              puts article.to_s
+            end
+          end
+          group.update_attributes(:last_synchronisation_at => DateTime.now)
+          return
+        rescue NNTPClient::NNTPException => exc
+          @exception = exc
         end
       end
-      group.update_attributes(:last_synchronisation_at => DateTime.now)
+      raise @exception
     end
     
     def build_message(article)
@@ -62,6 +70,10 @@ module Jobs
       else
         Topic.create_from_message!(message, groups)
       end
+    end
+    
+    def servers
+      group.servers
     end
     
     def group

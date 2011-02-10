@@ -7,9 +7,13 @@ module TopicsHelper
     text = body.to_s.strip
     text.gsub!(/\r\n?/, "\n")
     text.gsub!(/\n{3,}/, "\n\n")
+    text.gsub!(/<(.*?@.*?)>/, '&lt;\1&gt;') # escape email adresses
     #text.gsub!(/^>.*\Z/m, '') # remove quotes # TODO: maybe surround them by a quote tag with toogle display
     text.gsub!(/(\s+)$/, '') # remove trailing blank chars
     text.gsub!(/^(\s+)/) { |blank_chars| blank_chars.gsub(' ', '&nbsp;') }    
+    puts '-' * 40
+    puts text
+    text.gsub!(/^(>.*?)$^[^>]/m) { |quote| "<blockquote>#{quote.gsub(/^(>)/, '')}</blockquote>" }
     text.gsub!(/\n.*?:\s*\Z/,  "\n")     # remove top posters's "xxx wrote" like lines
     text.gsub!(/\s*(<\/?[a-z]+>)\s*/, '\1')
     text.gsub!("\n\n", '</p><p>')

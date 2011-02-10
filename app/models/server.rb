@@ -11,7 +11,8 @@ class Server
   validates_presence_of :hostname
   validates_uniqueness_of :hostname
   validates_numericality_of :port, :only_integer => true, :greater_than => 0, :less_than => 2 ** 16
-  references_many :groups
+
+  references_and_referenced_in_many :groups
   before_validation :clean_user_and_secret
   
   def to_param

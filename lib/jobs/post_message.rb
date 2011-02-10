@@ -7,13 +7,20 @@ module Jobs
     
     extend Resque::Plugins::Lock
     
-    def initialize(topic_index, message_indexes)
-      @topic = Topic.where(:index => topic_index).first
+    def initialize(indexes)
+      @topic = Topic.where(:index => indexes.first).first
       @message = @topic.find_message_by_indexes(message_indexes)
     end
     
     def perform!
-      client.post(build_message.to_s)
+      on_each_server do |client|
+        begin
+          return client.post(build_message.to_s)
+        rescue NNTPClient::NNTPException => exc
+          @exception = exc
+        end
+      end
+      raise @exception
     end
     
     def build_message
@@ -37,8 +44,8 @@ module Jobs
     
     protected
     
-    def server
-      @server ||= Group.where(:name => @topic.groups.first).first.server
+    def servers
+      @server ||= Group.where(:name => @topic.groups.first).map(&:servers).uniq
     end
     
   end
