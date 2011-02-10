@@ -25,7 +25,6 @@ class Admin::GroupsController < Admin::BaseController
       # Destroy orphan groups
       old_groups.each do |group_name|
         group = Group.first(:conditions => {:name => group_name})
-        p group.reload.servers.map(&:hostname)
         group.destroy if group.servers.empty?
       end
       
