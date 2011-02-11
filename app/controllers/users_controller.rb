@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+  before_filter :is_admin_or_raise!
+
   def index
   end
 
@@ -9,7 +12,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      redirect_to '/'
+      redirect_to root_url
     else
       render :new
     end
@@ -19,7 +22,7 @@ class UsersController < ApplicationController
     logout_keeping_session!
     if params[:activation_token].blank?
       flash[:error] = "The activation code was missing. Please follow the URL from your email."
-      redirect_to '/'
+      redirect_to root_url
     end
 
     user = User.find(:first, :conditions => {:activation_token => params[:activation_token]})
@@ -30,7 +33,7 @@ class UsersController < ApplicationController
       redirect_to groups_path
     else
       flash[:error] = "We couldn't find a user with that activation code -- check your email? Or maybe you've already activated -- try signing in."
-      redirect_to '/'
+      redirect_to root_url
     end
   end
 end
