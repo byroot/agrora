@@ -1,4 +1,4 @@
 
 task "resque:setup" => :environment do
-  puts '* load rails environment'
+  puts '* rails environment loaded'
 end

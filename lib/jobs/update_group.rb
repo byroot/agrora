@@ -21,13 +21,15 @@ module Jobs
           client.group(group.name)
           client.each_article_since(group.name, group.last_synchronisation_at) do |article|
             begin
+              info 'Start processing article'
               message = build_message(article)
               insert_message(message, article.newsgroups.groups)
+              info 'Success'
             rescue Exception => e
-              puts "#{e.class.name}: #{e.message}"
-              puts e.backtrace
-              puts '-' * 40
-              puts article.to_s
+              error "#{e.class.name}: #{e.message}"
+              error error e.backtrace
+              error '-' * 40
+              error article.to_s
             end
           end
           group.update_attributes(:last_synchronisation_at => DateTime.now)
@@ -36,7 +38,7 @@ module Jobs
           @exception = exc
         end
       end
-      raise @exception
+      raise @exception || "No available server"
     end
     
     def build_message(article)

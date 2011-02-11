@@ -14,6 +14,7 @@ module Jobs
     
     def perform!
       on_each_server do |client|
+        info "Start posting message #{@message.indexes.join('-')}"
         begin
           return client.post(build_message.to_s)
         rescue NNTPClient::NNTPException => exc
