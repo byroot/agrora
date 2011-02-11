@@ -1,0 +1,9 @@
+<div class="topic new">
+    <%= form_for @topic, :url => group_topics_path(@group, @topic) do |f| %>
+        
+        <%= render 'messages/form', :message => @topic, :f => f %>
+        
+        <%= f.submit %>
+        
+    <%- end -%>
+</div>

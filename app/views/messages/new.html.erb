@@ -5,27 +5,7 @@
 <div class="response">
     <%= form_for @message, :url => group_topic_messages_path(@group, @topic, params.slice(:parent)) do |f| %>
         
-        <%= render 'shared/error_messages', :target => @message %>
-        
-        <div class="row">
-            <%= f.label :author_name %>
-            <%= f.text_field :author_name %>
-        </div>
-        
-        <div class="row">
-            <%= f.label :author_email %>
-            <%= f.email_field :author_email %>
-        </div>
-        
-        <div class="row">
-            <%= f.label :subject %>
-            <%= f.text_field :subject %>
-        </div>
-        
-        <div class="row">
-            <%= f.label :body %>
-            <%= f.text_area :body %>
-        </div>
+        <%= render 'messages/form', :message => @message, :f => f %>
         
         <%= f.submit %>
         

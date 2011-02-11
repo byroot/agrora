@@ -12,6 +12,20 @@ class TopicsController < BaseController
     @topic = find_or_raise!(Topic.where :index => params[:id].to_i, :groups => group.name)
   end
   
+  def new
+    @topic = Topic.new
+  end
+  
+  def create
+    @topic = Topic.new(params[:topic].merge(:groups => [group.name]))
+    if @topic.save
+      Resque.enqueue(Jobs::PostMessage, @topic.indexes)
+      redirect_to group_topic_path(group, @topic)
+    else
+      render :new
+    end
+  end
+  
   protected
   
   def group

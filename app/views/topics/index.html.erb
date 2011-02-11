@@ -1,5 +1,7 @@
 <h1><%= @group.name %></h1>
 
+<%= link_to 'New topic', new_group_topic_path(@group) %>
+
 <%= render :partial => 'shared/pagination' if paginator.per_page > 20 %>
 
 <ul>
