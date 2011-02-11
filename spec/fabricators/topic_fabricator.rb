@@ -9,10 +9,6 @@ Fabricator :topic do
   body %{I've just made a benchmark, Ruby is 13.5 times slower than C. This is so lame !}
   created_at DateTime.new(2010, 1, 12, 9, 50, 36)
 
-  # child_messages do
-  #   [Fabricate.build(:message)]
-  # end
-  
   after_create do |topic|
     
     first_response = topic.child_messages << Fabricate.build(:message,
