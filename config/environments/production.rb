@@ -49,4 +49,5 @@ Agrora::Application.configure do
   
   ENV['REDIS_URL'] ||= 'redis://127.0.0.1:6379/3'
   
+  config.action_mailer.default_url_options= {:host => '127.0.0.1:3000'}
 end

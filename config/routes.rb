@@ -16,7 +16,7 @@ Agrora::Application.routes.draw do
   resources :session
   resources :users
   
-  match 'users/activate/:token' => 'users#activate', :as => :user_activate
+  match 'users/activate/:activation_token' => 'users#activate', :as => :user_activate
 
   root :to => 'groups#index'
   

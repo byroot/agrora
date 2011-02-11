@@ -17,12 +17,12 @@ class UsersController < ApplicationController
 
   def activate
     logout_keeping_session!
-    if params[:token].blank?
+    if params[:activation_token].blank?
       flash[:error] = "The activation code was missing. Please follow the URL from your email."
       redirect_to '/'
     end
 
-    user = User.find(:first, :conditions => {:activation_token => params[:token]})
+    user = User.find(:first, :conditions => {:activation_token => params[:activation_token]})
     if user && !user.active?
       user.activate!
       self.current_user = user

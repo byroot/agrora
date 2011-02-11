@@ -22,7 +22,7 @@ class User
   field :activation_token, :type => String, :default => nil
   #todo replace boolean by statemachine
   field :state, :type => Boolean, :default => false
-  field :is_admin?, :type => Boolean, :default => false
+  field :admin?, :type => Boolean, :default => false
   
 
   validates_presence_of :email, :username, :password_hash, :password_salt
@@ -34,12 +34,10 @@ class User
     email
   end
   
-
   def self.authenticate(login, pass)
     user = first(:conditions => {:email => login})
     return user if user && user.active? && user.matching_password?(pass)
   end
-
   
   def activate!
     self.state = true
@@ -56,7 +54,6 @@ class User
   end
 
   protected
-
     
   def prepare_password
     unless password.blank?
@@ -82,7 +79,6 @@ class User
     end
   end
 
-
   def make_activation_token
     self.activation_token = self.class.make_token
   end
@@ -98,6 +94,5 @@ class User
   def send_activation_mail
     UserMailer.activation_mail(self).deliver
   end
-
 
 end
