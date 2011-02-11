@@ -76,7 +76,7 @@ describe Admin::GroupsController do
     it 'should trigger update for groups newly added' do
       expect{
         post :create, :server_id => 'news.example.com', :groups => %w(comp.lang.c)
-      }.to trigger(Jobs::UpdateGroup).with('comp.lang.c').in('nntp')
+      }.to trigger(Jobs::UpdateGroup).with('comp.lang.c')
     end
     
     it 'should destroy orphan groups' do

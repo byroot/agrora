@@ -83,13 +83,13 @@ describe MessagesController do
         post :create, :group_id => 'comp.lang.ruby', :topic_id => '1', :parent => '0', :message => {
           :author_email => 'foo@bar.baz', :author_name => 'Foo Bar', :subject => 'Hello World', :body => 'Lorem Ipsum'
         }
-      }.to change{ Resque.peek('nntp') }.from(nil).to({"class"=>"Jobs::PostMessage", "args"=>[[1, 0, 2]]})
+      }.to trigger(Jobs::PostMessage).with([1, 0, 2])
     end
     
     it 'should not trigger a PostMessage job if creation failed' do
       expect{
         post :create, :group_id => 'comp.lang.ruby', :topic_id => '1'
-      }.to_not change{ Resque.peek('nntp') }
+      }.to_not trigger(Jobs::PostMessage)
     end
     
   end

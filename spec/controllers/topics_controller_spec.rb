@@ -43,14 +43,14 @@ describe TopicsController do
     it 'should trigger an UpdateGroup job if necessary' do
       expect{
         get :index, :group_id => 'comp.lang.ruby'
-      }.to trigger(Jobs::UpdateGroup).with('comp.lang.ruby').in('nntp')
+      }.to trigger(Jobs::UpdateGroup).with('comp.lang.ruby')
     end
 
     it 'should not trigger an UpdateGroup job if it is not necessary' do
       @group.update_attributes!(:last_synchronisation_at => DateTime.now)
       expect{
         get :index, :group_id => 'comp.lang.ruby'
-      }.to_not trigger(Jobs::UpdateGroup).with('comp.lang.ruby').in('nntp')
+      }.to_not trigger(Jobs::UpdateGroup)
     end
     
   end
@@ -81,14 +81,14 @@ describe TopicsController do
     it 'should trigger an UpdateGroup job' do
       expect{
         get :show, :group_id => 'comp.lang.ruby', :id => Topic.first.index.to_s
-      }.should trigger(Jobs::UpdateGroup).with('comp.lang.ruby').in('nntp')
+      }.should trigger(Jobs::UpdateGroup).with('comp.lang.ruby')
     end
     
     it 'should not trigger an UpdateGroup job if it is not necessary' do
       @group.update_attributes!(:last_synchronisation_at => DateTime.now)
       expect{
         get :show, :group_id => 'comp.lang.ruby', :id => Topic.first.index.to_s
-      }.to_not trigger(Jobs::UpdateGroup).with('comp.lang.ruby').in('nntp')
+      }.to_not trigger(Jobs::UpdateGroup)
     end
     
   end
@@ -130,7 +130,7 @@ describe TopicsController do
           :subject => 'Hello World !', :body => 'Egg Spam'
         }
         response.should be_redirect
-      }.to trigger(Jobs::PostMessage).with([1]).in('nntp')
+      }.to trigger(Jobs::PostMessage).with([1])
     end
     
     it 'should render :new when creation failed' do
@@ -145,7 +145,7 @@ describe TopicsController do
         post :create, :group_id => 'comp.lang.ruby', :topic => {
           :author_email => 'foo@bar.org', :author_name => 'Foo Bar'
         }
-      }.to_not trigger(Jobs::PostMessage).with([1]).in('nntp')
+      }.to_not trigger(Jobs::PostMessage)
     end
     
   end
