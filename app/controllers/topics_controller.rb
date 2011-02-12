@@ -9,7 +9,7 @@ class TopicsController < BaseController
   end
   
   def show
-    @topic = find_or_raise!(Topic.where :index => params[:id].to_i, :groups => group.name)
+    @topic = find_or_raise!(RootNode.where :index => params[:id].to_i, :groups => group.name)
   end
   
   def new
