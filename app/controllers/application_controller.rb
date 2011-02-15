@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   include Authentification
+  include Authorisation
 
 
   rescue_from UnAuthorizedError, :with => :access_denied 
