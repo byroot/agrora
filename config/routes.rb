@@ -13,7 +13,9 @@ Agrora::Application.routes.draw do
     end
   end
 
+  match 'session/logout' => 'session#destroy', :as => :logout
   resources :session
+
   resources :users
   
   match 'users/activate/:activation_token' => 'users#activate', :as => :user_activate

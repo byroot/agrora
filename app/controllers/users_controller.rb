@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
 
-  before_filter :is_admin_or_raise!
 
   def index
   end

@@ -22,7 +22,7 @@ class User
   field :activation_token, :type => String, :default => nil
   #todo replace boolean by statemachine
   field :state, :type => Boolean, :default => false
-  field :admin?, :type => Boolean, :default => false
+  field :is_admin, :type => Boolean, :default => false
   
 
   validates_presence_of :email, :username, :password_hash, :password_salt
@@ -34,11 +34,21 @@ class User
     email
   end
   
+
+  def admin?
+    self.is_admin 
+  end
+
+  def admin=(value)
+    self.is_admin = value
+  end
+  
   def self.authenticate(login, pass)
     user = first(:conditions => {:email => login})
     return user if user && user.active? && user.matching_password?(pass)
   end
   
+
   def activate!
     self.state = true
     self.activation_token = nil
