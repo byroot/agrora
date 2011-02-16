@@ -42,10 +42,12 @@ describe UsersController do
 
     it 'should activate user and redirect to groups#index' do
       expect{
-        get :activate, :activation_token => @user.activation_token
-        response.should be_redirect
-        response.should redirect_to(groups_url)
-      }.to change{@user.reload.state}.from(false).to(true), change{@user.reload.activation}.to(nil)
+        expect{
+          get :activate, :activation_token => @user.activation_token
+          response.should be_redirect
+          response.should redirect_to(groups_url)
+        }.to change{ @user.reload.state }.from(false).to(true)
+      }.to change{ @user.reload.activation_token }.to(nil)
     end
 
   end

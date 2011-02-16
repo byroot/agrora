@@ -14,7 +14,7 @@ Agrora::Application.routes.draw do
   end
 
   match 'session/logout' => 'session#destroy', :as => :logout
-  resources :session
+  resource :session
 
   resources :users
   

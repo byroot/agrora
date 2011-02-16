@@ -1,21 +1,22 @@
 require 'spec_helper'
 
-describe SessionController do
+describe SessionsController do
+  
   before(:each) do
     @user = Fabricate(:user)
   end
-
+  
   describe '#create' do
     it 'should render new if fail' do
       post :create, :email => 'test', :password => 'foo'
       controller.should render_template('new')
     end
-  
+    
     it 'should fail if user is not activate' do
       post :create, :email => 'test@example.com', :password => 'azerty'
       controller.should render_template('new')
     end
-
+    
     it 'should redirect to groups root if success' do
       expect{
         @user.activate!
@@ -27,8 +28,7 @@ describe SessionController do
 
   describe '#destroy' do
     it 'should redirect to root' do
-      #todo find why it's work in web but no in spec
-      get :logout
+      post :destroy
       response.should be_redirect
       response.should redirect_to(root_url)
     end
