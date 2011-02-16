@@ -1,12 +1,15 @@
 # this module depend of authentification module
-module Authorisation
-
+module Authorization
+  
+  PermissionRequired = Class.new(Exception)
+  
   protected
 
-  def self.included m
-    return unless m < ActionController::Base
-    m.helper_method :logged_in?, :admin?
+  def self.included(base)
+    base.rescue_from PermissionRequired, :with => :access_denied 
+    base.helper_method :logged_in?, :admin?
   end
+  
   def store_location
     session[:return_to] = request.fullpath
   end
@@ -17,11 +20,11 @@ module Authorisation
   end
 
   def is_admin_or_raise!
-    admin? or raise UnAuthorizedError.new
+    admin? or raise PermissionRequired.new("You're not an admin")
   end
 
   def logged_in_or_raise!
-    logged_in? or raise UnAuthorizedError.new
+    logged_in? or raise PermissionRequired.new("You should loggin")
   end
 
   def access_denied
@@ -37,7 +40,4 @@ module Authorisation
   def admin?
     logged_in? && current_user.admin?
   end
-end
-
-class UnAuthorizedError < Exception
 end

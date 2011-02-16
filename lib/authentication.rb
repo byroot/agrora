@@ -1,10 +1,9 @@
-module Authentification
+module Authentication
 
   protected
 
-  def self.included m
-    return unless m < ActionController::Base
-    m.helper_method :current_user
+  def self.included(base)
+    base.helper_method :current_user
   end
 
   def current_user
