@@ -50,9 +50,8 @@ describe UsersController do
 
     it 'should activate user' do
       expect{
-          get :activate, :activation_token => @user.activation_token
-          pending
-      }.to change{ @user.reload.activated? }.from(false).to(true)
+        get :activate, :activation_token => @user.activation_token
+      }.to change{ @user.reload.state }.from('disabled').to('activated')
     end
   end
 end
