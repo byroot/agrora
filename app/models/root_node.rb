@@ -23,11 +23,12 @@ class RootNode < Node
   end
   
   def subject
-    "missing"
+    walk{ |node| return node.subject if node.is_a?(Message) }
+    'unkown'
   end
   
   def to_param
-    index.to_s
+    "#{index}-#{subject}".parameterize
   end
   
   def insert_or_update_message(message)

@@ -38,6 +38,11 @@ class Node
     @indexes ||= (ancestors + [self]).map(&:index)
   end
   
+  def walk
+    yield self
+    self.child_nodes.each{ |child| child.walk{ |n| yield n }}
+  end
+  
   protected
   
   def ancestors

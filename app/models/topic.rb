@@ -10,8 +10,4 @@ class Topic < RootNode
     
   end
   
-  def to_param
-    "#{index}-#{subject}".parameterize
-  end
-  
 end
