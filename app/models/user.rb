@@ -23,29 +23,28 @@ class User
   field :password_hash, :type => String
   field :password_salt, :type => String
   field :activation_token, :type => String, :default => nil
-  #todo replace boolean by statemachine
   field :is_admin, :type => Boolean, :default => false
+  field :state, :type => String
   
-
-  field :state
-
   validates_presence_of :email, :username, :password_hash, :password_salt
   validates_uniqueness_of :email
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validate :check_password
-
-
+  
+  alias_method :admin=, :is_admin=
+  alias_method :admin?, :is_admin
+  
   stateflow do
     state_column :state
-    initial :disable
+    initial :disabled
 
-    state :disable
-    state :active do
+    state :disabled
+    state :activated do
       enter lambda { |user| user.activation_token = nil }
     end
 
     event :activate do
-      transitions :from => :disable, :to => :active
+      transitions :from => :disabled, :to => :activated
     end
 
   end
@@ -55,28 +54,15 @@ class User
     email
   end
   
-
-  def admin?
-    self.is_admin 
-  end
-
-  def admin=(value)
-    self.is_admin = value
-  end
-  
   def self.authenticate(login, pass)
     user = first(:conditions => {:email => login})
-    return user if user && user.active? && user.matching_password?(pass)
+    return user if user && user.activated? && user.matching_password?(pass)
   end
   
-  def active?
-    self.current_state.name == :active
-  end
-
   def matching_password?(pass)
     self.password_hash == encrypt_password(pass)
   end
-
+  
   protected
   
   def prepare_password

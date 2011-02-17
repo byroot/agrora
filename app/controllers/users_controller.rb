@@ -22,9 +22,8 @@ class UsersController < ApplicationController
       flash[:error] = "The activation code was missing. Please follow the URL from your email."
       redirect_to root_url
     end
-
-    user = User.find(:first, :conditions => {:activation_token => params[:activation_token]})
-    if user && !user.active?
+    
+    if params[:activation_token].present? && user = User.find(:first, :conditions => {:activation_token => params[:activation_token]})
       user.activate!
       self.current_user = user
       flash[:notice] = "Account Activated."

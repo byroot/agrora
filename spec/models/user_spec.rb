@@ -12,7 +12,7 @@ describe User do
   it{ should have_field(:password_salt).of_type(String) }
   it{ should have_field(:activation_token).of_type(String) }
   it{ should have_field(:is_admin).of_type(Boolean) }
-  it{ should have_field(:state)}
+  it{ should have_field(:state).of_type(String) }
 
   it { should validate_presence_of(:email) }
   it { should validate_presence_of(:password_hash) }
@@ -31,9 +31,34 @@ describe User do
     
     it { should_not be_admin }
     
-    it { should_not be_active }
+    it { should_not be_activated }
     
-   end
+    it { should be_disabled }
+    
+  end
+  
+  describe '#activate!' do
+    
+    it 'should activate disabled users' do
+      expect{
+        subject.activate!
+      }.to change{ subject.activated? }.from(false).to(true)
+    end
+    
+    it 'should destroy activation token' do
+      expect{
+        subject.activate!
+      }.to change{ subject.activation_token }.to(nil)
+    end
+    
+    it 'should raise activated users' do
+      subject.activate!
+      expect{
+        subject.activate!
+      }.to raise_error
+    end
+    
+  end
   
   describe ".authenticate" do
 

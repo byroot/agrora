@@ -52,7 +52,7 @@ describe UsersController do
       expect{
           get :activate, :activation_token => @user.activation_token
           pending
-      }.to change{ @user.reload.active? }.from(false).to(true)
+      }.to change{ @user.reload.activated? }.from(false).to(true)
     end
   end
 end
