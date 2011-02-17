@@ -1,4 +1,4 @@
-<div id="message-<%= message.indexes.join('-') %>" class="message">
+<div id="message-<%= message.indexes.join('-') %>" class="message type-<%= html_class(message) %>">
     <div class="header">
         <h3 class="subject"><%= message.subject %></h3>
         <p>
@@ -14,5 +14,5 @@
             <%= link_to 'Reply', new_group_topic_message_path(@group, @topic, :parent => message.indexes.join('-')) %>
         <%- end -%>
     </div>
-    <%= render 'decorators/node', :node => message unless defined?(dont_render_responses) %>
+    <%= render 'decorators/child_nodes', :parent => message unless defined?(dont_render_responses) %>
 </div>

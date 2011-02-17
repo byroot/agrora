@@ -1,9 +1,9 @@
-<%- if node.child_nodes.any? -%>
-<ul class="responses">
-    <%- node.child_nodes.each do |response| -%>
-    <li class="response">
-        <%= decorate(response) %>
-    </li>
-    <%- end -%>
-</ul>
-<%- end -%>
+<div id="message-<%= node.indexes.join('-') %>" class="message type-<%= html_class(node) %>">
+    <div class="header">
+        <h3 class="subject">Message missing</h3>
+    </div>
+    <div class="body">
+        <p>This message have been lost</p>
+    </div>
+    <%= render 'decorators/child_nodes', :parent => node %>
+</div>

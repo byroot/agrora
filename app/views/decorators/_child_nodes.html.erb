@@ -1,0 +1,9 @@
+<%- if parent.child_nodes.any? -%>
+<ul class="responses">
+    <%- parent.child_nodes.each do |response| -%>
+    <li class="response">
+        <%= decorate(response) %>
+    </li>
+    <%- end -%>
+</ul>
+<%- end -%>
