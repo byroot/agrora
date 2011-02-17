@@ -9,8 +9,6 @@ module Jobs
     
     extend Resque::Plugins::Lock
     
-    delegate :server, :to => :group
-    
     def initialize(group_name)
       @group_name = group_name
     end
@@ -43,7 +41,7 @@ module Jobs
     def store!(message)
       if message.references.empty?
         node = RootNode.find_or_initialize_by(:message_id => message.message_id)
-        node.as(Topic, message.attributes.merge(:groups => message.groups)).save!
+        node.as!(Topic, message.attributes.merge(:groups => message.groups))
       else
         root, *references = message.references
         node = RootNode.find_or_create_by(:message_id => root, :groups => message.groups)
