@@ -1,4 +1,10 @@
-.message { border: 1px solid grey ; padding-left: 10px; margin-bottom: 5px;}
-.message .header { margin-top: -10px; }
-.message .body { margin-left: 10px; }
-.message .responses .response { list-style-type: none;}
+/* General */
+.notice { color: yellow; }
+.error { color: red; }
+
+/* Messages Controller */
+#messages-controller .message { border: 1px solid grey ; padding-left: 10px; margin-bottom: 5px; }
+#messages-controller .message .header { margin-top: -10px; }
+#messages-controller .message .body { margin-left: 10px; }
+#messages-controller .message .responses .response { list-style-type: none; }
+
