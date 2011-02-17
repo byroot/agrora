@@ -9,8 +9,6 @@ module Jobs
     
     extend Resque::Plugins::Lock
     
-    delegate :server, :to => :group
-    
     def initialize(group_name)
       @group_name = group_name
     end
@@ -22,8 +20,7 @@ module Jobs
           client.each_article_since(group.name, group.last_synchronisation_at) do |article|
             begin
               info 'Start processing article'
-              message = build_message(article)
-              insert_message(message, article.newsgroups.groups)
+              store!(build_message(article))
               info 'Success'
             rescue Exception => e
               error "#{e.class.name}: #{e.message}"
@@ -41,8 +38,24 @@ module Jobs
       raise @exception || "No available server"
     end
     
+    def store!(message)
+      if message.references.empty?
+        node = RootNode.find_or_initialize_by(:message_id => message.message_id)
+        node.as!(Topic, message.attributes.merge(:groups => message.groups))
+      else
+        root, *references = message.references
+        node = RootNode.find_or_create_by(:message_id => root, :groups => message.groups)
+        references.each do |message_id|
+          node = node.child_nodes.find_or_create_by(:message_id => message_id)
+        end
+        node = node.child_nodes.find_or_initialize_by(:message_id => message.message_id)
+        node.as(Message, message.attributes.merge(:parent_node => node.parent_node)).save!
+      end
+    end
+    
     def build_message(article)
       Message.new(
+        :groups => article.newsgroups.groups,
         :author_name => article[:from].display_names.first,
         :author_email => article[:from].addresses.first,
         :message_id => article.message_id,
@@ -64,14 +77,6 @@ module Jobs
     def encoding(article)
       claimed_encoding = article['content-type'].try(:parameters).try(:[], 'charset')
       ENCODING_ALIASES[claimed_encoding] || claimed_encoding
-    end
-    
-    def insert_message(message, groups)
-      if message.references.any? && topic = Topic.where(:root => message.root).first
-        topic.insert_or_update_message(message)
-      else
-        Topic.create_from_message!(message, groups)
-      end
     end
     
     def servers

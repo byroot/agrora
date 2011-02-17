@@ -15,7 +15,7 @@ class Group
   end
   
   def topics
-    Topic.in_group(self)
+    RootNode.in_group(self)
   end
   
 end

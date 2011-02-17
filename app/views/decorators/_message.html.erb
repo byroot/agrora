@@ -14,14 +14,5 @@
             <%= link_to 'Reply', new_group_topic_message_path(@group, @topic, :parent => message.indexes.join('-')) %>
         <%- end -%>
     </div>
-    
-    <%- if message.child_messages.any? && !defined?(dont_render_responses) -%>
-    <ul class="responses">
-        <%- message.child_messages.each do |response| -%>
-        <li class="response">
-            <%= render 'messages/message', :message => response %>
-        </li>
-        <%- end -%>
-    </ul>
-    <%- end -%>
+    <%= render 'decorators/node', :node => message unless defined?(dont_render_responses) %>
 </div>

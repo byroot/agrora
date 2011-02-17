@@ -4,11 +4,11 @@ describe Topic do
   
   subject{ Fabricate(:topic) }
   
-  it { should have_fields(:created_at).of_type(Time) }
+  it { should have_fields(:created_at).of_type(DateTime) }
   it { should have_fields(:updated_at).of_type(Time) }
   it { should have_fields(:groups).of_type(Array) }
   
-  it { should embed_many :child_messages }
+  it { should embed_many :child_nodes }
   it { should validate_length_of(:groups) }
   
   describe 'belongs to groups' do
@@ -41,17 +41,6 @@ describe Topic do
       expect{
         @topic.update_attributes!(:message_id => 'foo')
       }.to_not change{ Topic.index_counter.value }
-    end
-    
-  end
-  
-  describe '#root' do
-    
-    it 'should be equal to message_id' do
-      @topic = Fabricate.build(:topic, :message_id => '98765@exmaple.com')
-      expect{
-        @topic.save.should be_true
-      }.to change{ @topic.root }.from(nil).to('98765@exmaple.com')
     end
     
   end
@@ -106,7 +95,7 @@ describe Topic do
     
     it 'should skip missing references' do
       @references = %w(missing missing_again 23456@troll.com 34567@troll.com)
-      subject.update_attributes(:root => 'missing')
+      subject.update_attributes(:message_id => 'missing')
       subject.find_message_by_references(@references).should be_present
       subject.find_message_by_references(@references).message_id.should == '34567@troll.com'
     end
