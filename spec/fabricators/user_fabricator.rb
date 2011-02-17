@@ -3,6 +3,5 @@ Fabricator(:user) do
   username "test"
   password "azerty"
   password_confirmation "azerty"
-  state false
   
 end

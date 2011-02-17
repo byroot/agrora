@@ -11,6 +11,9 @@ gem "resque", '1.10.0'
 gem "resque-lock", "0.1.1"
 gem "redis-objects", :git => 'http://github.com/byroot/redis-objects.git'
 
+# StateMachine
+gem "stateflow"
+
 # NNTP
 gem "mail", :git => 'http://github.com/byroot/mail.git'
 

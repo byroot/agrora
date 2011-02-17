@@ -1,6 +1,9 @@
+Stateflow.persistence = :mongoid
+
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Stateflow
 
 
   index :email, :unique => true
@@ -21,14 +24,32 @@ class User
   field :password_salt, :type => String
   field :activation_token, :type => String, :default => nil
   #todo replace boolean by statemachine
-  field :state, :type => Boolean, :default => false
   field :is_admin, :type => Boolean, :default => false
   
+
+  field :state
 
   validates_presence_of :email, :username, :password_hash, :password_salt
   validates_uniqueness_of :email
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validate :check_password
+
+
+  stateflow do
+    state_column :state
+    initial :disable
+
+    state :disable
+    state :active do
+      enter lambda { |user| user.activation_token = nil }
+    end
+
+    event :activate do
+      transitions :from => :disable, :to => :active
+    end
+
+  end
+
 
   def to_param
     email
@@ -48,15 +69,8 @@ class User
     return user if user && user.active? && user.matching_password?(pass)
   end
   
-
-  def activate!
-    self.state = true
-    self.activation_token = nil
-    save
-  end
-
   def active?
-    self.state
+    self.current_state.name == :active
   end
 
   def matching_password?(pass)
@@ -64,7 +78,7 @@ class User
   end
 
   protected
-    
+  
   def prepare_password
     unless password.blank?
       self.password_salt = Digest::SHA1.hexdigest([Time.now, rand].join)

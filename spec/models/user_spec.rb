@@ -12,7 +12,7 @@ describe User do
   it{ should have_field(:password_salt).of_type(String) }
   it{ should have_field(:activation_token).of_type(String) }
   it{ should have_field(:is_admin).of_type(Boolean) }
-  it{ should have_field(:state).of_type(Boolean) }
+  it{ should have_field(:state)}
 
   it { should validate_presence_of(:email) }
   it { should validate_presence_of(:password_hash) }
