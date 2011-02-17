@@ -18,11 +18,15 @@ class MessagesController < BaseController
   protected
   
   def parent
-    @parent ||= topic.find_message_by_indexes([topic.index] + (params[:parent] || '').split('-').map(&:to_i))
+    @parent ||= topic.find_message_by_indexes(parent_indexes)
+  end
+  
+  def parent_indexes
+    (params[:parent] || '').split('-').map(&:to_i)
   end
   
   def topic
-    @topic ||= find_or_raise!(Topic.where :index => params[:topic_id].to_i, :groups => group.name)
+    @topic ||= find_or_raise!(RootNode.where :index => params[:topic_id].to_i, :groups => group.name)
   end
   
   def group

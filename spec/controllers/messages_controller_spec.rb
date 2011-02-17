@@ -64,13 +64,13 @@ describe MessagesController do
     end
     
     it 'should render :new if validation fail' do
-      post :create, :group_id => 'comp.lang.ruby', :topic_id => '1', :parent => '0-0', :message => {}
+      post :create, :group_id => 'comp.lang.ruby', :topic_id => '1', :parent => '1-0', :message => {}
       controller.should render_template('new')
     end
     
     it 'should redirect_to message path with correct anchor if creation is successful' do
       expect{
-        post :create, :group_id => 'comp.lang.ruby', :topic_id => '1', :parent => '0', :message => {
+        post :create, :group_id => 'comp.lang.ruby', :topic_id => '1', :parent => "1-0", :message => {
           :author_email => 'foo@bar.baz', :author_name => 'Foo Bar', :subject => 'Hello World', :body => 'Lorem Ipsum'
         }
         response.should be_redirect
@@ -80,7 +80,7 @@ describe MessagesController do
     
     it 'should trigger a PostMessage job if creation is successful' do
       expect{
-        post :create, :group_id => 'comp.lang.ruby', :topic_id => '1', :parent => '0', :message => {
+        post :create, :group_id => 'comp.lang.ruby', :topic_id => '1', :parent => '1-0', :message => {
           :author_email => 'foo@bar.baz', :author_name => 'Foo Bar', :subject => 'Hello World', :body => 'Lorem Ipsum'
         }
       }.to trigger(Jobs::PostMessage).with([1, 0, 2])

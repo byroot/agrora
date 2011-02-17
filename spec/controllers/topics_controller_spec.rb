@@ -31,11 +31,11 @@ describe TopicsController do
       it 'can select page' do
         get :index, :group_id => 'comp.lang.ruby'
         assigns(:topics).size.should == 20
-        assigns(:topics).should == Topic.where(:groups => 'comp.lang.ruby').paginate(:page => 1, :per_page => 20)
+        assigns(:topics).should == Topic.where(:groups => 'comp.lang.ruby').order_by(:updated_at.desc).paginate(:page => 1, :per_page => 20)
         
         get :index, :group_id => 'comp.lang.ruby', :page => 6
         assigns(:topics).size.should == 1
-        assigns(:topics).should == Topic.where(:groups => 'comp.lang.ruby').paginate(:page => 6, :per_page => 20)
+        assigns(:topics).should == Topic.where(:groups => 'comp.lang.ruby').order_by(:updated_at.desc).paginate(:page => 6, :per_page => 20)
       end
       
     end
