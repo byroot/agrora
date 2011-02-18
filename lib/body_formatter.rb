@@ -25,7 +25,8 @@ module BodyFormatter
   
   def format_quotes!(text)
     text.gsub!(/^(>.*?)(?:\z|^[^>])/m) do |match| 
-      trail = match[($1.length - 1)..-1]
+      trail = ''
+      trail = match[($1.length - 1)..-1] if match.length > $1.length
       quote = $1.gsub(/^(>\s?)/, '')
       format_quotes!(quote)
       "<blockquote>#{quote.strip}</blockquote>#{trail.strip}"

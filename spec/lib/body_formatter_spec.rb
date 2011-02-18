@@ -32,6 +32,12 @@ describe BodyFormatter do
   
   describe '.format_quotes!' do
     
+    it 'should not repeat last letter' do
+      text = "> Hey"
+      format_quotes!(text)
+      text.should == '<blockquote>Hey</blockquote>'
+    end
+    
     it 'should surround quotes with <blockquote> tags' do
       text = %{Hi,
 
