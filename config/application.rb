@@ -36,7 +36,17 @@ module Agrora
     # config.i18n.default_locale = :de
 
     # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w()
+    JS_PATH = %w(lib/vendor/* lib/* *)
+
+    config.action_view.javascript_expansions[:defaults] = []
+    asset_root = "#{Rails.root}/public/"
+    js_root = "#{asset_root}javascripts/"
+    JS_PATH.each do |pattern|
+      Dir["#{js_root}#{pattern}.js"].sort.each do |path|
+        js = path.gsub(js_root, '')
+        config.action_view.javascript_expansions[:defaults] << js unless js == 'application'
+      end
+    end
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
