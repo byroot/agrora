@@ -41,10 +41,14 @@ describe BodyFormatter do
 Sure it is !
 }
       format_quotes!(text)
-      text.should == "Hi,\n\n<blockquote>This is a quote\non multiple lines\n\n</blockquote>\nSure it is !\n"
+      text.should == "Hi,\n\n<blockquote>This is a quote\non multiple lines</blockquote>Sure it is !\n"
     end
     
     it 'hande quotes of quotes' do
+      text = ">> Hello\n> Hi !\nHey !"
+      format_quotes!(text)
+      text.should == "<blockquote><blockquote>Hello</blockquote>Hi !</blockquote>Hey !"
+      
       text = %{Hi,
 > Hello
 >> This is a quote of quote
@@ -53,8 +57,7 @@ Sure it is !
 Sure it is !
 }
       format_quotes!(text)
-      text.should == "Hi,\n<blockquote>Hello\n<blockquote>This is a quote of quote\non multiple lines\n\n</blockquote>\n</blockquote>\nSure it is !\n"
-      
+      text.should == "Hi,\n<blockquote>Hello\n<blockquote>This is a quote of quote\non multiple lines</blockquote></blockquote>Sure it is !\n"
     end
     
   end

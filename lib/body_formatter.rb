@@ -24,11 +24,11 @@ module BodyFormatter
   end
   
   def format_quotes!(text)
-    text.gsub!(/^(>.*?)$^($|[^>])/m) do |quote| 
-      quote.gsub!(/^(>\s?)/, '')
-      quote << "\n"
+    text.gsub!(/^(>.*?)(?:\z|^[^>])/m) do |match| 
+      trail = match[($1.length - 1)..-1]
+      quote = $1.gsub(/^(>\s?)/, '')
       format_quotes!(quote)
-      "<blockquote>#{quote}</blockquote>"
+      "<blockquote>#{quote.strip}</blockquote>#{trail.strip}"
     end
   end
   
