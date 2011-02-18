@@ -46,7 +46,7 @@ var Delegation = Class({
                 $selector = $(selector);
                 klass.getBehaviors().each(function(behavior) {
                     $selector.delegate(behavior.selector, behavior.event, function() {
-                        var observer = $(this).parent(selector)[0];
+                        var observer = $(this).parents(selector)[0];
                         var instance = klass.instanceOf(observer);
                         if (!instance) return null;
                         return instance[behavior.handlerName].apply(instance, arguments);
@@ -62,15 +62,3 @@ var Delegation = Class({
     }
     
 });
-
-// 
-// var Foo = Class(Delegation, {
-//     count: 0,
-//     
-//     'click @ a': function() {
-//         console.log(this.count++);
-//         this.element.after($('form#new_message').clone());
-//     }
-// })
-// 
-// Foo.observe('form#new_message');
