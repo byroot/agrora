@@ -13,10 +13,10 @@ Agrora::Application.routes.draw do
     end
   end
 
-  match 'session/logout' => 'session#destroy', :as => :logout
   resource :session
-
   resources :users
+  
+  match 'message/preview' => 'messages#preview', :as => :message_preview
   
   match 'users/activate/:activation_token' => 'users#activate', :as => :user_activate
 

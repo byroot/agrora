@@ -1,7 +1,10 @@
 class MessagesController < BaseController
   
   def new
-    @message = Message.new(:parent_node => parent)
+    @message = Message.new(
+      :parent_node => parent,
+      :body => parent.body.gsub(/^/, '> ')
+    )
   end
   
   def create
@@ -13,6 +16,11 @@ class MessagesController < BaseController
     else
       render :new
     end
+  end
+  
+  def preview
+    @message = Message.new(params[:message])
+    render :preview, :layout => false
   end
   
   protected

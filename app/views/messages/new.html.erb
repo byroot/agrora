@@ -2,6 +2,7 @@
     <%= render 'decorators/message', :message => @parent, :dont_render_responses => true %>
 </div>
 
+<div class="preview"></div>
 <div class="response">
     <%= form_for @message, :url => group_topic_messages_path(@group, @topic, params.slice(:parent)) do |f| %>
         

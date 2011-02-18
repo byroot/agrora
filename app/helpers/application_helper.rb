@@ -1,8 +1,8 @@
 module ApplicationHelper
   
-  def decorate(instance)
+  def decorate(instance, options={})
     name = instance.class.name.underscore.to_sym
-    render "decorators/#{name}", {name => instance}
+    render "decorators/#{name}", {name => instance}.merge(options)
   end
   
   def html_class(instance)

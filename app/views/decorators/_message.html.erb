@@ -3,11 +3,11 @@
         <h3 class="subject"><%= message.subject %></h3>
         <p>
             <span class="author"><%= message.author_name %></span>
-            <span class="date">at <%= I18n.l(message.created_at) %></span>
+            <span class="date">at <%= I18n.l(message.created_at || Time.now) %></span>
         </p>
     </div>
     <div class="body">
-        <%= render_message_body(message.body).html_safe %>
+        <%= format_body(message.body).html_safe %>
     </div>
     <div class="actions">
         <%- unless defined?(dont_render_responses) -%>
