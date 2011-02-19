@@ -1,7 +1,7 @@
 var MessageForm = Class(Delegation, {
     
     getTimer: function() {
-        if (!this.timer) this.timer = new Timer(this.getBodyInput());
+        if (!this.timer) this.timer = new Timer(this.getBodyInput(), {period: 5000});
         return this.timer;
     },
     
