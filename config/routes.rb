@@ -18,7 +18,7 @@ Agrora::Application.routes.draw do
   
   match 'message/preview' => 'messages#preview', :as => :message_preview
   
-  match 'users/activate/:activation_token' => 'users#activate', :as => :user_activate
+  match 'users/activate/:user_id/:activation_token' => 'users#activate', :as => :user_activate
 
   root :to => 'groups#index'
   

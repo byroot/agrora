@@ -4,7 +4,10 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
   include Stateflow
+  
+  include Redis::Objects
 
+  value :token
 
   index :email, :unique => true
   
@@ -22,7 +25,7 @@ class User
   field :username, :type => String
   field :password_hash, :type => String
   field :password_salt, :type => String
-  field :activation_token, :type => String, :default => nil
+  #field :activation_token, :type => String, :default => nil
   field :is_admin, :type => Boolean, :default => false
   field :state, :type => String
   
@@ -40,13 +43,25 @@ class User
 
     state :disabled
     state :activated do
-      enter lambda { |user| user.activation_token = nil }
+      enter lambda { |user| user.clear_activation_token }
     end
 
     event :activate do
       transitions :from => :disabled, :to => :activated
     end
 
+  end
+
+  def activation_token
+    self.token.value
+  end
+
+  def activation_token=(value)
+    self.token.value = value
+  end
+
+  def clear_activation_token
+    self.token.delete
   end
 
 
@@ -61,6 +76,17 @@ class User
   
   def matching_password?(pass)
     self.password_hash == encrypt_password(pass)
+  end
+
+  def self.activate(user_id, activation_token)
+    user = User.find(user_id)
+    return nil unless user
+    if user.activation_token == activation_token
+      user.activate!
+      return user
+    else
+      return nil
+    end
   end
   
   protected

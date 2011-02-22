@@ -10,7 +10,6 @@ describe User do
   it{ should have_field(:username).of_type(String) }
   it{ should have_field(:password_hash).of_type(String) }
   it{ should have_field(:password_salt).of_type(String) }
-  it{ should have_field(:activation_token).of_type(String) }
   it{ should have_field(:is_admin).of_type(Boolean) }
   it{ should have_field(:state).of_type(String) }
 

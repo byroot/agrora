@@ -35,14 +35,14 @@ describe UsersController do
     end
     
     it 'should redirect to root if token is not correct' do
-      get :activate, :activation_token => 'foo'
+      get :activate, :user_id => @user.id.to_s, :activation_token => 'foo'
       response.should be_redirect
       response.should redirect_to(root_url)
     end
 
     it 'should set activation_token to nil and redirect to groups#index' do
       expect{
-        get :activate, :activation_token => @user.activation_token
+        get :activate, :user_id => @user.id.to_s, :activation_token => @user.activation_token
         response.should be_redirect
         response.should redirect_to(groups_url)
       }.to change{ @user.reload.activation_token }.to(nil)
@@ -50,7 +50,7 @@ describe UsersController do
 
     it 'should activate user' do
       expect{
-        get :activate, :activation_token => @user.activation_token
+        get :activate, :user_id => @user.id.to_s, :activation_token => @user.activation_token
       }.to change{ @user.reload.state }.from('disabled').to('activated')
     end
   end
