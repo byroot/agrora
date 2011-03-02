@@ -6,6 +6,7 @@ module BodyFormatter
     cleanup_newlines!(text)
     encode_leading_blank_chars!(text)
     format_quotes!(text)
+    suround_signatures!(text)
     format_paragraphs!(text)
     text
   end
@@ -38,6 +39,10 @@ module BodyFormatter
     text.gsub!("\n", '<br />')
     text.insert(0, '<p>')
     text << '</p>'
+  end
+  
+  def suround_signatures!(text)
+    text.gsub!(/(^\-\-$.*?\z)/m, '<div class="signature">\1</div>')
   end
   
 end

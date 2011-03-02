@@ -82,4 +82,22 @@ This is a oneline paragraph.
     
   end
   
+  describe '.suround_signatures!' do
+    
+    it 'should suround the smallest signature' do
+      text = %{Hello
+World
+
+-- Some SQL
+SELECT * FROM foos;
+
+--
+Superman
+http://foo.com/}
+      suround_signatures!(text)
+      text.should == "Hello\nWorld\n\n-- Some SQL\nSELECT * FROM foos;\n\n<div class=\"signature\">--\nSuperman\nhttp://foo.com/</div>"
+    end
+    
+  end
+  
 end
