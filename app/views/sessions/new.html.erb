@@ -1,4 +1,5 @@
 <%= form_tag "/session/" do %>
+  <%= hidden_field_tag :redirect, params[:redirect] %>
   <div class="row">
     <%= label_tag "email:" %>
     <%= text_field_tag "email" %>
@@ -7,5 +8,5 @@
     <%= label_tag "password:" %>
     <%= password_field_tag "password" %>
   </div>
-  <%= submit_tag "login" %>
+  <%= submit_tag 'Login' %> or <%= link_to 'Signup', new_user_path %>
 <% end %>

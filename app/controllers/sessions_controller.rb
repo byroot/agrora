@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
       self.current_user = user
 
       flash[:notice] = "Logged in successfully."
-      redirect_to params[:redirect] || groups_url
+      redirect_to params[:redirect].presence || groups_url
     else
       #logout_killing_session!
       flash.now[:error] = "Invalid login or password."

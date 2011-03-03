@@ -14,7 +14,9 @@
   <% if flash[:error] %>
     <p style="error"><%= flash[:error] %></p>
   <% end %>
-
+  
+  <%= render 'shared/session_frame' %>
+  
 <%= yield %>
 
 </body>

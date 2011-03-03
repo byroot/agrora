@@ -8,3 +8,5 @@
 .message .body blockquote { border: solid 1px black; background-color: grey; padding: 10px; margin-left: 10px; }
 .message .responses .response { list-style-type: none; }
 
+/* Session frame */
+.session { float: right; }
