@@ -1,5 +1,5 @@
 /* General */
-.notice { color: yellow; }
+.notice { color: orange; }
 .error { color: red; }
 
 .message { border: 1px solid grey ; padding-left: 10px; padding-right: 10px; margin-bottom: 5px; }
