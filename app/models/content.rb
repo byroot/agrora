@@ -12,6 +12,11 @@ module Content
     base.before_validation :set_created_at, :set_message_id
   end
   
+  def author=(user)
+    self.author_name = user.username
+    self.author_email = user.email
+  end
+  
   protected
   
   def set_created_at

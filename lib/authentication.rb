@@ -15,8 +15,8 @@ module Authentication
   end
 
   def current_user=(user)
-    session[:user_id] = new_user ? new_user._id.to_s : nil
-    @current_user = new_user || false
+    session[:user_id] = user ? user._id.to_s : nil
+    @current_user = user || false
   end
 
   def logout_keeping_session!

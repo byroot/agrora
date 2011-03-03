@@ -10,7 +10,7 @@ class MessagesController < BaseController
   end
   
   def create
-    @message = Message.new({:parent_node => parent}.merge(params[:message] || {}))
+    @message = Message.new(message_params)
     if @message.save
       Resque.enqueue(Jobs::PostMessage, @message.indexes)
       anchor = "message-#{@message.indexes.join('-')}"
@@ -26,6 +26,10 @@ class MessagesController < BaseController
   end
   
   protected
+  
+  def message_params
+    (params[:message] || {}).merge(:parent_node => parent, :author => current_user)
+  end
   
   def parent
     @parent ||= topic.find_message_by_indexes(parent_indexes)
