@@ -6,7 +6,9 @@ class User
   include Stateflow
   
   include Redis::Objects
-
+  
+  include Authorization::ModelMixin
+  
   value :token
 
   index :email, :unique => true
@@ -51,7 +53,7 @@ class User
     end
 
   end
-
+  
   def activation_token
     self.token.value
   end
@@ -63,7 +65,6 @@ class User
   def clear_activation_token
     self.token.delete
   end
-
 
   def to_param
     email

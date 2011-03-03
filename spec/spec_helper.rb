@@ -7,6 +7,9 @@ require 'rspec/rails'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+# Requires shared examples in spec/shared and its subdirectories
+Dir[Rails.root.join("spec/shared/**/*.rb")].each {|f| require f}
+
 RSpec.configure do |config|
   config.mock_with :rspec
   

@@ -1,5 +1,7 @@
 class MessagesController < BaseController
   
+  require_permission :create_message, :only => [:new, :create]
+  
   def new
     @message = Message.new(
       :parent_node => parent,

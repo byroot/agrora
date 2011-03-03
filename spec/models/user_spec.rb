@@ -6,6 +6,8 @@ describe User do
     Fabricate(:user)
   end
   
+  it_should_behave_like 'authorized'
+  
   it{ should have_field(:email).of_type(String) }
   it{ should have_field(:username).of_type(String) }
   it{ should have_field(:password_hash).of_type(String) }
@@ -34,6 +36,10 @@ describe User do
     
     it { should be_disabled }
     
+    it { should_not be_authorized_to(:create_message) }
+
+    it { should_not be_authorized_to(:view_admin) }
+    
   end
   
   describe '#activate!' do
@@ -57,6 +63,12 @@ describe User do
       }.to raise_error
     end
     
+    it 'should authorize user to create message' do
+      expect{
+        subject.activate!
+      }.to change{ subject.authorized_to?(:create_message) }.from(false).to(true)
+    end
+    
   end
   
   describe ".authenticate" do
@@ -78,5 +90,16 @@ describe User do
       User.authenticate("test@example.com", "something").should be_nil
     end
   end
-
+  
+  describe "#admin?" do
+    
+    it 'should authorize user to view admin interface' do
+      subject.activate!
+      expect{
+        subject.update_attributes(:admin => true)
+      }.to change{ subject.authorized_to?(:view_admin) }.from(false).to(true)
+    end
+    
+  end
+  
 end

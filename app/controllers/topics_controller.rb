@@ -4,6 +4,8 @@ class TopicsController < BaseController
   
   before_filter :trigger_group_update_if_necessary!
   
+  require_permission :create_message, :only => [:new, :create]
+  
   def index
     @topics = paginate(group.topics.order_by(:updated_at.desc))
   end

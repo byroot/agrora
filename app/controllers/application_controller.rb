@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   include Authentication
-  include Authorization
+  include Authorization::ControllerExtension
 
   private
   
