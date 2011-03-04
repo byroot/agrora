@@ -32,7 +32,7 @@ class MessagesController < BaseController
   end
   
   def parent
-    @parent ||= topic.find_message_by_indexes(parent_indexes)
+    @parent ||= topic.find_message_by_indexes(parent_indexes) or raise Mongoid::Errors::DocumentNotFound.new(Message, params[:parent])
   end
   
   def parent_indexes

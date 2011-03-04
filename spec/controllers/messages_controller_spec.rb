@@ -28,11 +28,9 @@ describe MessagesController do
     end
     
     it 'should raise DocumentNotFound if parent does not exist' do
-      pending 'Mongoid::Errors::DocumentNotFound require 2 arguments' do
-        expect{
-          get :new, :group_id => 'comp.lang.ruby', :topic_id => @topic.index.to_s, :parent => '42-12-24'
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
-      end
+      expect{
+        get :new, :group_id => 'comp.lang.ruby', :topic_id => @topic.index.to_s, :parent => '42-12-24'
+      }.to raise_error(Mongoid::Errors::DocumentNotFound)
     end
     
   end
@@ -58,11 +56,9 @@ describe MessagesController do
     end
     
     it 'should raise DocumentNotFound if parent does not exist' do
-      pending 'Mongoid::Errors::DocumentNotFound require 2 arguments' do
-        expect{
-          post :create, :group_id => 'comp.lang.ruby', :topic_id => @topic.index.to_s, :parent => '42-12-24'
-        }.to raise_error(Mongoid::Errors::DocumentNotFound)
-      end
+      expect{
+        post :create, :group_id => 'comp.lang.ruby', :topic_id => @topic.index.to_s, :parent => '42-12-24'
+      }.to raise_error(Mongoid::Errors::DocumentNotFound)
     end
     
     it 'should render :new if validation fail' do
@@ -90,7 +86,9 @@ describe MessagesController do
     
     it 'should not trigger a PostMessage job if creation failed' do
       expect{
-        post :create, :group_id => 'comp.lang.ruby', :topic_id => '1'
+        expect{
+          post :create, :group_id => 'comp.lang.ruby', :topic_id => '1'
+        }.to raise_error(Mongoid::Errors::DocumentNotFound)
       }.to_not trigger(Jobs::PostMessage)
     end
     
