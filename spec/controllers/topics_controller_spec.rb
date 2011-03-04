@@ -97,6 +97,7 @@ describe TopicsController do
     
     before :each do
       @group = Fabricate(:group)
+      logged_in_as Fabricate(:user, :state => 'activated')
     end
     
     it 'should be success' do
@@ -110,6 +111,7 @@ describe TopicsController do
     
     before :each do
       @group = Fabricate(:group)
+      logged_in_as Fabricate(:user, :state => 'activated')
     end
     
     it 'should redirect to topic_path when successful' do

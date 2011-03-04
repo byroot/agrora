@@ -5,12 +5,13 @@ describe MessagesController do
   describe '#new' do
     
     before :each do
+      logged_in_as Fabricate(:user, :state => 'activated')
       @group = Fabricate(:group)
       @topic = Fabricate(:topic)
     end
     
     it 'should be success' do
-      get :new, :group_id => 'comp.lang.ruby', :topic_id => @topic.index.to_s, :parent => '0-0'
+      get :new, :group_id => 'comp.lang.ruby', :topic_id => @topic.index.to_s, :parent => '1-0-0'
       response.should be_success
     end
     
@@ -39,6 +40,7 @@ describe MessagesController do
   describe '#create' do
     
     before :each do
+      logged_in_as Fabricate(:user, :state => 'activated')
       @group = Fabricate(:group)
       @topic = Fabricate(:topic)
     end
