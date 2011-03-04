@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SessionsController do
   
-  before(:each) do
+  before :each do
     @user = Fabricate(:user)
   end
   
@@ -27,11 +27,13 @@ describe SessionsController do
   end
 
   describe '#destroy' do
+    
     it 'should redirect to root' do
       post :destroy
       response.should be_redirect
       response.should redirect_to(root_url)
     end
+    
   end
 
 end

@@ -27,10 +27,12 @@ describe UsersController do
         response.should redirect_to(root_url)
       }.to change { User.count }.by(1)
     end
+    
   end
 
   describe '#activate' do
-    before(:each) do
+    
+    before :each do
       @user = Fabricate(:user)
     end
     
@@ -53,5 +55,7 @@ describe UsersController do
         get :activate, :user_id => @user.id.to_s, :activation_token => @user.activation_token
       }.to change{ @user.reload.state }.from('disabled').to('activated')
     end
+    
   end
+  
 end
