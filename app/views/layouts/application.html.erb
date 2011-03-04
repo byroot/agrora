@@ -8,16 +8,20 @@
   <%= csrf_meta_tag %>
 </head>
 <%= body_tag %>
-  <% if flash[:notice] %>
-    <p class="notice"><%= flash[:notice] %></p>
-  <% end %>
-  <% if flash[:error] %>
-    <p style="error"><%= flash[:error] %></p>
-  <% end %>
+  <div id="header">
+    <p id="header-title">agRORa</p>
+    <%= render 'shared/session_frame' %>
+  </div>
+  <div id="wrapper">
+    <% if flash[:notice] %>
+      <p class="notice"><%= flash[:notice] %></p>
+    <% end %>
+    <% if flash[:error] %>
+      <p style="error"><%= flash[:error] %></p>
+    <% end %>
   
-  <%= render 'shared/session_frame' %>
-  
-<%= yield %>
-
+    <%= yield %>
+  </div>
+  <div id="footer">&copy; Groupe <span class="bold">agRORa</span> - 2011 | INSIA</div>
 </body>
 </html>
