@@ -97,11 +97,11 @@ class User
   def check_password
     if self.new_record?
       errors.add(:base, "Password can't be blank") if self.password.blank?
-      errors.add(:base, "Password must be at least 4 chars long") if self.password.to_s.size.to_i < 4
+      errors.add(:base, "Password must be at least 4 chars long") if self.password.to_s.size < 4
       errors.add(:base, "Password and confirmation does not match") unless self.password == self.password_confirmation
     else
       unless self.password.blank?
-        errors.add(:base, "Password must be at least 4 chars long") if self.password.to_s.size.to_i < 4
+        errors.add(:base, "Password must be at least 4 chars long") if self.password.to_s.size < 4
         errors.add(:base, "Password and confirmation does not match") unless self.password == self.password_confirmation
       end
     end
