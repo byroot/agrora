@@ -1,17 +1,41 @@
-/* Positioning */
+/* Font-Face */
 
-
+@font-face { font-family: 'Logobloqo2-ie'; src: url('../fonts/logobloqo2.eot'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'Logobloqo2'; src: url('../fonts/logobloqo2.ttf'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'Capsuula-ie'; src: url('../fonts/capsuula.eot'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'Capsuula'; src: url('../fonts/capsuula.ttf'); font-weight: normal; font-style: normal; }
 
 /* General */
 
-.notice { color: orange; }
-.error { color: red; }
+body { margin: 0; padding: 0; font-family: 'Capsuula', 'Capsuula-ie', Verdana, Arial; font-size: 13pt; color: #000000; }
+
+.bold { font-weight: bold; }
+.notice { color: #FF6600; }
+.error { color: #A60000; }
+
+/* Header */
+
+#header { width: 100%; min-height: 85px; background-color: #000000; color: #FFFFFF; padding-top: 15px; padding-bottom: 15px; }
+#header-title { font-family: 'Logobloqo2', 'Logobloqo2-ie'; font-size: 2.9em; padding-left: 55px; padding-right: 25px; }
+#header-title a:link, #header-title a:visited { color: #FFFFFF; text-decoration: none; }
+#header-title a:hover { color: #0088FF; }
+
+/* Sub-Header-Menu */
+
+#sub-header-menu { width: 100%; min-height: 20px; background-color: #0088FF; color: #FFFFFF; padding-top: 5px; padding-bottom: 5px; }
+#sub-header-menu a:link, #sub-header-menu a:visited { color: #FFFFFF; text-decoration: none; }
+#sub-header-menu a:hover { text-decoration: underline; }
+
+/* Session frame */
+
+#session { float: right; padding-left: 25px; padding-right: 25px; color: #000000; }
+#session a:link, #session a:visited { color: #000000; text-decoration: none; }
+#session a:hover { color: #FFFFFF; }
+
+/* Messages */
 
 .message { border: 1px solid grey ; padding-left: 10px; padding-right: 10px; margin-bottom: 5px; }
 .message .header { margin-top: -10px; }
 .message .body { margin-left: 10px; }
 .message .body blockquote { border: solid 1px black; background-color: grey; padding: 10px; margin-left: 10px; }
 .message .responses .response { list-style-type: none; }
-
-/* Session frame */
-.session { float: right; }

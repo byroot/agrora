@@ -1,4 +1,4 @@
-<div class="session">
+<div id="session">
     <%- if current_user.activated? -%>
         Welcome <%= current_user.username %>. <%= link_to 'Logout', session_path, :method => :delete %>
     <%- else -%>
