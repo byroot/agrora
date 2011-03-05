@@ -22,7 +22,9 @@ body { margin: 0; padding: 0; font-family: 'Capsuula', 'Capsuula-ie', Verdana, A
 
 /* Sub-Header-Menu */
 
-#sub-header-menu { width: 100%; min-height: 20px; background-color: #0088FF; color: #FFFFFF; padding-top: 5px; padding-bottom: 5px; }
+#sub-header-menu { width: 100%; min-height: 20px; background-color: #0088FF; color: #FFFFFF; padding-top: 2px; padding-bottom: 2px; font-size: 0.9em; }
+#sub-header-menu ul { list-style: none; margin: 0; padding-left: 55px; }
+#sub-header-menu ul li { float: left; }
 #sub-header-menu a:link, #sub-header-menu a:visited { color: #FFFFFF; text-decoration: none; }
 #sub-header-menu a:hover { text-decoration: underline; }
 
@@ -39,3 +41,10 @@ body { margin: 0; padding: 0; font-family: 'Capsuula', 'Capsuula-ie', Verdana, A
 .message .body { margin-left: 10px; }
 .message .body blockquote { border: solid 1px black; background-color: grey; padding: 10px; margin-left: 10px; }
 .message .responses .response { list-style-type: none; }
+
+/* Footer */
+
+#footer { font-family: 'Logobloqo2', 'Logobloqo2-ie'; font-size: 0.8em; color: #CCCCCC; text-align: center; width: 100%; margin-top: 60px; }
+#footer a:link, #footer a:visited { color: #AAAAAA; text-decoration: none; }
+#footer a:hover { color: #CCCCCC; }
+
