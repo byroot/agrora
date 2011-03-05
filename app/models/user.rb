@@ -37,6 +37,8 @@ class User
   alias_method :admin=, :is_admin=
   alias_method :admin?, :is_admin
   
+  delegate :encrypt_password, :to => 'self.class'
+  
   stateflow do
     state_column :state
     initial :disabled
@@ -68,39 +70,35 @@ class User
     email
   end
   
-  def self.authenticate(login, pass)
-    user = first(:conditions => {:email => login})
-    return user if user && user.activated? && user.matching_password?(pass)
-  end
-  
-  def matching_password?(pass)
-    self.password_hash == encrypt_password(pass)
-  end
-
-  def self.activate(user_id, activation_token)
-    user = User.find(user_id)
-    return nil unless user
-    if user.activation_token == activation_token
-      user.activate!
-      return user
-    else
-      return nil
+  class << self
+    
+    def authenticate(login, pass)
+      user = first(:conditions => {:email => login, :state => 'activated'})
+      user if user && user.password_hash == encrypt_password(pass, user.password_salt)
     end
+
+    def activate(user_id, activation_token)
+      user = User.find(user_id)
+      if user && user.activation_token == activation_token
+        user.tap(&:activate!)
+      end
+    end
+    
+    def encrypt_password(password, salt)
+      Digest::SHA1.hexdigest("#{password}#{salt}")
+    end
+    
   end
   
   protected
   
   def prepare_password
     unless password.blank?
-      self.password_salt = Digest::SHA1.hexdigest([Time.now, rand].join)
-      self.password_hash = encrypt_password(password)
+      self.password_salt = SecureRandom.hex
+      self.password_hash = encrypt_password(password, password_salt)
     end
   end
   
-  def encrypt_password(pass)
-    Digest::SHA1.hexdigest([pass, password_salt].join)
-  end
-
   def check_password
     if self.new_record?
       errors.add(:base, "Password can't be blank") if self.password.blank?
@@ -113,21 +111,13 @@ class User
       end
     end
   end
-
+  
   def make_activation_token
-    self.activation_token = self.class.make_token
+    self.activation_token = SecureRandom.hex
   end
-
-  def self.secure_digest(*args)
-    Digest::SHA1.hexdigest(args.flatten.join('--'))
-  end
-
-  def self.make_token
-    secure_digest(Time.now, (1..10).map{ rand.to_s })
-  end
-
+  
   def send_activation_mail
     UserMailer.activation_mail(self).deliver
   end
-
+  
 end
