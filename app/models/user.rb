@@ -19,13 +19,10 @@ class User
 
   after_create :send_activation_mail
 
-  before_validation :prepare_password
-
   field :email, :type => String
   field :username, :type => String
   field :password_hash, :type => String
-  field :password_salt, :type => String
-  #field :activation_token, :type => String, :default => nil
+  field :password_salt, :type => String, :default => Proc.new{ ActiveSupport::SecureRandom.hex }
   field :is_admin, :type => Boolean, :default => false
   field :state, :type => String
   
@@ -52,6 +49,11 @@ class User
       transitions :from => :disabled, :to => :activated
     end
 
+  end
+  
+  def password=(password)
+    @password = password
+    self.password_hash = encrypt_password(password, password_salt)
   end
   
   def activation_token
@@ -92,13 +94,6 @@ class User
   
   protected
   
-  def prepare_password
-    unless password.blank?
-      self.password_salt = SecureRandom.hex
-      self.password_hash = encrypt_password(password, password_salt)
-    end
-  end
-  
   def check_password
     if self.new_record?
       errors.add(:base, "Password can't be blank") if self.password.blank?
@@ -113,7 +108,7 @@ class User
   end
   
   def make_activation_token
-    self.activation_token = SecureRandom.hex
+    self.activation_token = ActiveSupport::SecureRandom.hex
   end
   
   def send_activation_mail
