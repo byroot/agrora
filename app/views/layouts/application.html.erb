@@ -21,14 +21,19 @@
     <%= render 'shared/session_frame' %>
   </div>
   <div id="wrapper">
-    <% if flash[:notice] %>
-      <p class="notice"><%= flash[:notice] %></p>
-    <% end %>
-    <% if flash[:error] %>
-      <p style="error"><%= flash[:error] %></p>
-    <% end %>
-  
-    <%= yield %>
+    <div id="main-content" class="shadow-left-right">
+      <% if flash[:notice] %>
+        <div class="notifications shadow-right-bottom">
+          <p class="notice"><%= flash[:notice] %></p>
+        </div>
+      <% end %>
+      <% if flash[:error] %>
+        <div class="notifications shadow-right-bottom">
+          <p style="error"><%= flash[:error] %></p>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
   </div>
   <div id="footer">
     &copy; Groupe <a href="https://github.com/byroot/agrora" target="_blank"><span class="bold">ag<span style="font-size: 1.3em;">ROR</span>a</span></a> - 2011 | <a href="http://www.insia.org" target="_blank"><span class="bold">INSIA</span></a>

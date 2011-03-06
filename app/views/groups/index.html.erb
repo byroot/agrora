@@ -1,11 +1,15 @@
 <% content_for :header_menu do %>
   <ul class="bold"> 
-    <li><%= link_to "Groupes", groups_path %></li>
+    <li><%= link_to "Groupes de discussion", groups_path %></li>
   </ul>
 <% end %>
 
-<ul>
+<ul class="groups-list">
 <%- @groups.each do |group| -%>
-    <li><%= link_to group.name, group_topics_path(group) %></li>
+    <li>
+        <%= link_to group_topics_path(group) do %>
+            <%= group.name %>
+        <% end %>
+    </li>
 <%- end -%>
 </ul>

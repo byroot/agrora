@@ -1,10 +1,16 @@
-<h1><%= @group.name %></h1>
+<% content_for :header_menu do %>
+    <ul class="bold">
+        <li><%= link_to "Groupes de discussion", groups_path %></li>
+        <li>></li>
+        <li><%= link_to @group.name, groups_path %></li>
+    </ul>
+<% end %>
 
-<%= link_to 'New topic', new_group_topic_path(@group) %>
+<%= link_to 'New topic', new_group_topic_path(@group), :class => "button-link" %>
 
 <%= render :partial => 'shared/pagination' if paginator.per_page > 20 %>
 
-<ul>
+<ul class="topics-list">
     <%- @topics.each do |topic| -%>
         <li><%= link_to topic.subject, group_topic_path(@group, topic) %></li>
     <%- end -%>
