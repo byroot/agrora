@@ -43,6 +43,7 @@ describe Admin::GroupsController do
       get :new, :server_id => 'news.example.com'
       assigns(:available_groups).should == @available_groups
       assigns(:exception).should be_nil
+      response.should be_success
     end
     
     it 'in case of network failure it should provide the exception' do
@@ -50,6 +51,7 @@ describe Admin::GroupsController do
       controller.should_receive(:available_groups).and_raise(@exception)
       get :new, :server_id => 'news.example.com'
       assigns(:exception).should == @exception
+      response.should be_success
     end
     
   end

@@ -28,7 +28,7 @@ class NNTPClient
   
   def initialize(host='localhost', port=119, user=nil, secret=nil, method=nil)
     @nntp = Net::NNTP.start(host, port, user, secret, method)
-  rescue Errno::ECONNREFUSED => e
+  rescue SystemCallError => e
     raise NetworkFailureException.new(e.message)
   end
   
