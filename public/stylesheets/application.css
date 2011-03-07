@@ -7,8 +7,8 @@
 
 /* General */
 
-body { margin: 0; padding: 0; font-family: 'Capsuula', 'Capsuula-ie', Verdana, Arial; font-size: 13pt; color: #000000; }
-
+body { margin: 0; padding: 0; font-family: 'Capsuula', 'Capsuula-ie', Verdana, Arial; font-size: 12pt; color: #000000; background: transparent url('../images/background_stripes.png') repeat scroll 0% 0% }
+img { border: none; }
 .bold { font-weight: bold; }
 .notice { color: #FF6600; }
 .error { color: #A60000; }
@@ -16,11 +16,16 @@ body { margin: 0; padding: 0; font-family: 'Capsuula', 'Capsuula-ie', Verdana, A
 .shadow-left-right { filter:progid:DXImageTransform.Microsoft.Shadow(color='#AAAAAA', Direction=270, Strength=10) progid:DXImageTransform.Microsoft.Shadow(color='#AAAAAA', Direction=90, Strength=10); zoom: 1; }  
 .shadow-right-bottom { -moz-box-shadow: 4px 4px 4px #CCCCCC; -webkit-box-shadow: 4px 4px 4px #CCCCCC; box-shadow: 4px 4px 4px #CCCCCC; }  
 .shadow-right-bottom { filter:progid:DXImageTransform.Microsoft.Shadow(color='#CCCCCC', Direction=135, Strength=4); zoom: 1; }  
+.shadow-left-right-bottom { -moz-box-shadow: -10px 0px 10px #AAAAAA, 10px 0px 10px #AAAAAA, 0px 10px 10px #AAAAAA; -webkit-box-shadow: -10px 0px 10px #AAAAAA, 10px 0px 10px #AAAAAA, 0px 10px 10px #AAAAAA; box-shadow: -10px 0px 10px #AAAAAA, 10px 0px 10px #AAAAAA, 0px 10px 10px #AAAAAA; }
+.shadow-left-right-bottom { filter:progid:DXImageTransform.Microsoft.Shadow(color='#AAAAAA', Direction=270, Strength=10) progid:DXImageTransform.Microsoft.Shadow(color='#AAAAAA', Direction=90, Strength=10) progid:DXImageTransform.Microsoft.Shadow(color='#AAAAAA', Direction=180, Strength=10); zoom: 1; }
+.button-link:link, .button-link:visited { color: #000000; background-color: #DFDFDF; border: 1px #CCCCCC solid; padding: 0.5em 1em; text-decoration: none; margin: 5px; -moz-border-radius-bottomright: 1em 1em; border-bottom-right-radius: 1em 1em; }
+.button-link:hover { background-color: #0088FF; color: #FFFFFF; }
 
 /* Header */
 
 #header { width: 100%; min-height: 85px; background-color: #000000; color: #FFFFFF; padding-top: 15px; padding-bottom: 15px; }
 #header-title { font-family: 'Logobloqo2', 'Logobloqo2-ie'; font-size: 2.9em; position: absolute; left: 50%; margin-left: -405px; }
+#agrora-logo { margin: 0 0 0 35px; vertical-align: middle; }
 #header-title a:link, #header-title a:visited { color: #FFFFFF; text-decoration: none; }
 #header-title a:hover { color: #0088FF; }
 
@@ -40,21 +45,24 @@ body { margin: 0; padding: 0; font-family: 'Capsuula', 'Capsuula-ie', Verdana, A
 
 /* Wrapper & Content */
 
-#wrapper { background: transparent url('../images/background_stripes.png') repeat scroll 0% 0%; margin: 0; padding: 0; }
-#main-content { width: 850px; background-color: #FFFFFF; margin: 0 auto; padding: 60px 25px 70px 25px; }
-#main-content a:link, #main-content a:visited { color: #000000; text-decoration: none; font-weight: bold; }
-#main-content a:hover { text-decoration: underline; }
+#wrapper { margin: 0; padding: 0; }
+#main-content { width: 850px; min-height: 650px; background-color: #FFFFFF; margin: 0 auto; padding: 30px 25px 70px 25px; }
 
 /* Notifications */
 
 .notifications { width: 350px; min-height: 20px; background-color: #EDF7FF; margin: 0 auto 25px; padding: 20px; }
 
+/* Actions List */
+
+.actions-list ul { list-style: none; padding: 0 }
+.actions-list ul li { float: left; margin-right: 15px; }
+.actions-list ul li a img { vertical-align: middle; }
+
 /* Groups List */
 
 .groups-list { list-style: none; padding: 0; }
 .groups-list li { margin-bottom: 20px; }
-.groups-list li a:link, .groups-list li a:visited { display: block; background-color: #EDF7FF; border: 1px #CCCCCC solid; padding: 5px; }
-.groups-list li a:hover { background-color: #0088FF; color: #FFFFFF !important; }
+.groups-list li a { display: block; }
 
 /* Messages */
 
@@ -66,7 +74,8 @@ body { margin: 0; padding: 0; font-family: 'Capsuula', 'Capsuula-ie', Verdana, A
 
 /* Footer */
 
-#footer { font-family: 'Logobloqo2', 'Logobloqo2-ie'; font-size: 0.8em; color: #FFFFFF; text-align: center; width: 100%; background-color: #666666; padding-top: 10px; padding-bottom: 10px; }
-#footer a:link, #footer a:visited { color: #CCCCCC; text-decoration: none; }
-#footer a:hover { color: #EFEFEF; }
+#footer-content { font-family: 'Logobloqo2', 'Logobloqo2-ie'; font-size: 0.8em; color: #FFFFFF; text-align: center; width: 100%; background-color: #000000; padding-top: 10px; padding-bottom: 10px; }
+#footer-content a:link, #footer-content a:visited { color: #FFFFFF; }
+#footer-content a:hover { color: #0088FF; text-decoration: none; }
+#footer-decorator { width: 850px; height: 70px; margin: 0 auto; padding: 0 25px 0 25px; background-color: #FFFFFF; }
 

@@ -1,19 +1,29 @@
 <% content_for :header_menu do %>
-    <ul class="bold">
-        <li><%= link_to "Groupes de discussion", groups_path %></li>
+    <ul>
+        <li><%= link_to "Discussion groups", groups_path %></li>
         <li>></li>
         <li><%= link_to @group.name, groups_path %></li>
     </ul>
 <% end %>
 
-<%= link_to 'New topic', new_group_topic_path(@group), :class => "button-link" %>
+<% content_for :content_title do %>
+    <h2><%= @group.name %></h2>
+<% end %>
+
+<% content_for :actions_list do %>
+    <ul>
+        <li>
+            <%= link_to new_group_topic_path(@group), :class => "button-link" do %>
+                <img src="/images/add_icon.png" width="16" /> Create a topic
+            <% end %>
+        </li>
+    </ul>
+<% end %>
 
 <%= render :partial => 'shared/pagination' if paginator.per_page > 20 %>
-
 <ul class="topics-list">
     <%- @topics.each do |topic| -%>
         <li><%= link_to topic.subject, group_topic_path(@group, topic) %></li>
     <%- end -%>
 </ul>
-
 <%= render :partial => 'shared/pagination' %>

@@ -11,12 +11,12 @@
 <%= body_tag %>
   <div id="header">
     <div id="header-title">
-      <%= link_to(root_path) do %>
-        ag<span class="bold" style="font-size: 1.5em;">ROR</span>a
+      <%= link_to root_path, :title => "agRORa's Home" do %>
+        <img id="agrora-logo" src="/images/agRORa_icon.png" height="80" /> ag<span class="bold" style="font-size: 1.5em;">ROR</span>a
       <% end %>
     </div>
   </div>
-  <div id="sub-header-menu">
+  <div id="sub-header-menu" class="bold">
     <%= yield :header_menu %>
     <%= render 'shared/session_frame' %>
   </div>
@@ -32,11 +32,19 @@
           <p style="error"><%= flash[:error] %></p>
         </div>
       <% end %>
+      <%= yield :content_title %>
+      <div class="actions-list">
+        <%= yield :actions_list %>
+        <div style="clear: both;">&nbsp;</div>
+      </div>
       <%= yield %>
     </div>
   </div>
   <div id="footer">
-    &copy; Groupe <a href="https://github.com/byroot/agrora" target="_blank"><span class="bold">ag<span style="font-size: 1.3em;">ROR</span>a</span></a> - 2011 | <a href="http://www.insia.org" target="_blank"><span class="bold">INSIA</span></a>
+    <div id="footer-content">
+      &copy; Groupe <a href="https://github.com/byroot/agrora" target="_blank">ag<span style="font-size: 1.3em;">ROR</span>a</a> - 2011 | <a href="http://www.insia.org" target="_blank">INSIA</a>
+    </div>
+    <div id="footer-decorator" class="shadow-left-right-bottom">&nbsp;</div>
   </div>
 </body>
 </html>
