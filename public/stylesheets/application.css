@@ -74,6 +74,7 @@ img { border: none; }
 
 /* Footer */
 
+#footer { margin-bottom: 30px; }
 #footer-content { font-family: 'Logobloqo2', 'Logobloqo2-ie'; font-size: 0.8em; color: #FFFFFF; text-align: center; width: 100%; background-color: #000000; padding-top: 10px; padding-bottom: 10px; }
 #footer-content a:link, #footer-content a:visited { color: #FFFFFF; }
 #footer-content a:hover { color: #0088FF; text-decoration: none; }
