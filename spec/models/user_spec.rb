@@ -42,6 +42,39 @@ describe User do
     
   end
   
+  describe 'after_create' do
+    
+    subject do
+      Fabricate(:user)
+    end
+    
+    its(:activation_token) { should be_present }
+    
+  end
+  
+  describe '#make_activation_token' do
+    
+    subject do
+      Fabricate.build(:user)
+    end
+    
+    it 'should store an activation_token' do
+      expect{
+        subject.save
+      }.to change{ subject.activation_token }.from(nil).to(instance_of(String))
+      subject.activation_token.should match(/[\w\d]{32,}/)
+    end
+    
+    it 'should be random' do
+      subject.save!
+      expect{
+        subject.send(:make_activation_token)
+        subject.activation_token
+      }.to be_random
+    end
+    
+  end
+  
   describe '#activate!' do
     
     it 'should activate disabled users' do

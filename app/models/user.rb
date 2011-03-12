@@ -17,8 +17,6 @@ class User
 
   before_create :make_activation_token
 
-  after_create :send_activation_mail
-
   field :email, :type => String
   field :username, :type => String
   field :password_hash, :type => String
@@ -109,10 +107,6 @@ class User
   
   def make_activation_token
     self.activation_token = ActiveSupport::SecureRandom.hex
-  end
-  
-  def send_activation_mail
-    UserMailer.activation_mail(self).deliver
   end
   
 end
