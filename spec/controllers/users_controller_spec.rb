@@ -28,6 +28,17 @@ describe UsersController do
       }.to change { User.count }.by(1)
     end
     
+    it 'should not allow to specify a custom #password_salt' do
+      expect{
+        post :create, :user => {:email => 'foo@bar.com', :password => 'foobar',
+          :password_confirmation => 'foobar', :username => 'foo', :password_salt => 'my_custom_salt'}
+        response.should be_redirect
+        response.should redirect_to(root_url)
+      }.to change { User.count }.by(1)
+      assigns(:user).password_salt.should be_present
+      assigns(:user).password_salt.should_not == 'my_custom_salt'
+    end
+    
   end
 
   describe '#activate' do
@@ -46,7 +57,7 @@ describe UsersController do
       expect{
         get :activate, :user_id => @user.id.to_s, :activation_token => @user.activation_token
         response.should be_redirect
-        response.should redirect_to(groups_url)
+        response.should redirect_to(root_url)
       }.to change{ @user.reload.activation_token }.to(nil)
     end
 

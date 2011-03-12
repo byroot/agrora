@@ -40,6 +40,12 @@ describe User do
 
     it { should_not be_authorized_to(:view_admin) }
     
+    it 'should have a random salt' do
+      expect{
+        User.new.password_salt
+      }.to be_random
+    end
+    
   end
   
   describe 'after_create' do
