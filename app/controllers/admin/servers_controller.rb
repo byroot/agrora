@@ -1,11 +1,12 @@
 class Admin::ServersController < Admin::BaseController
   
+  before_filter :server, :only => [:show, :edit]
+  
   def index
     @servers = Server.all
   end
   
   def show
-    @server = find_or_raise!(Server.where :hostname => params[:id])
   end
   
   def new
@@ -22,12 +23,10 @@ class Admin::ServersController < Admin::BaseController
   end
   
   def edit
-    @server = find_or_raise!(Server.where :hostname => params[:id])
   end
   
   def update
-    @server = find_or_raise!(Server.where :hostname => params[:id])
-    if @server.update_attributes(params[:server])
+    if server.update_attributes(params[:server])
       redirect_to :action => :index
     else
       render :edit
@@ -35,9 +34,14 @@ class Admin::ServersController < Admin::BaseController
   end
   
   def destroy
-    @server = find_or_raise!(Server.where :hostname => params[:id])
-    @server.destroy
+    server.destroy
     redirect_to :action => :index
+  end
+  
+  protected
+  
+  def server
+    @server = find_or_raise!(Server.where :hostname => params[:id])
   end
   
 end
