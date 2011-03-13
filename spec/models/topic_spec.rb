@@ -6,15 +6,11 @@ describe Topic do
     @klass = Topic
   end
   
-  it_should_behave_like 'content'
+  it_should_behave_like 'content', 'top_level_node'
   
   subject{ Fabricate(:topic) }
   
-  it { should have_fields(:updated_at).of_type(Time) }
-  it { should have_fields(:groups).of_type(Array) }
-  
   it { should embed_many :child_nodes }
-  it { should validate_length_of(:groups) }
   
   describe 'belongs to groups' do
     
