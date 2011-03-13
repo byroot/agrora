@@ -5,7 +5,7 @@ class Node
   
   self.collection_name = 'messages'
   
-  field :message_id, :type => String
+  field :message_id, :type => String, :default => Proc.new{ "#{ActiveSupport::SecureRandom.hex}@agrora.#{Rails.env}" } # TODO: allow to configure hostname
   
   recursively_embeds_many
   

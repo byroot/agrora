@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe Message do
   
+  before :all do
+    @klass = Message # TODO: find a better pattern
+  end
+  
+  it_should_behave_like 'content'
+  
   before :each do
     @topic = Fabricate(:topic)
     @references = %w(12345@troll.com 23456@troll.com 34567@troll.com)
@@ -12,17 +18,8 @@ describe Message do
   end
   
   it { should have_fields(:message_id).of_type(String) }
-  it { should have_fields(:subject).of_type(String) }
-  it { should have_fields(:body).of_type(String) }
-  it { should have_fields(:created_at).of_type(DateTime) }
-  it { should have_fields(:author_name).of_type(String) }
-  it { should have_fields(:author_email).of_type(String) }
   
   it { should validate_presence_of(:message_id) }
-  it { should validate_presence_of(:subject) }
-  it { should validate_presence_of(:body) }
-  it { should validate_presence_of(:created_at) }
-  it { should validate_presence_of(:author_email) }
   
   describe '#references' do
     

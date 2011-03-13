@@ -2,9 +2,14 @@ require 'spec_helper'
 
 describe Topic do
   
+  before :all do
+    @klass = Topic
+  end
+  
+  it_should_behave_like 'content'
+  
   subject{ Fabricate(:topic) }
   
-  it { should have_fields(:created_at).of_type(DateTime) }
   it { should have_fields(:updated_at).of_type(Time) }
   it { should have_fields(:groups).of_type(Array) }
   
