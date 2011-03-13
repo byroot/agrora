@@ -6,11 +6,9 @@ describe Topic do
     @klass = Topic
   end
   
-  it_should_behave_like 'content', 'top_level_node'
+  it_should_behave_like 'node', 'content', 'top_level_node'
   
   subject{ Fabricate(:topic) }
-  
-  it { should embed_many :child_nodes }
   
   describe 'belongs to groups' do
     

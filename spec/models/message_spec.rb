@@ -6,7 +6,7 @@ describe Message do
     @klass = Message # TODO: find a better pattern
   end
   
-  it_should_behave_like 'content'
+  it_should_behave_like 'node', 'content'
   
   before :each do
     @topic = Fabricate(:topic)
@@ -16,10 +16,6 @@ describe Message do
   subject do
     @message = @topic.find_message_by_references(@references)
   end
-  
-  it { should have_fields(:message_id).of_type(String) }
-  
-  it { should validate_presence_of(:message_id) }
   
   describe '#references' do
     
