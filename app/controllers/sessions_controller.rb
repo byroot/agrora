@@ -4,16 +4,12 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:email], params[:password])
-    if user
-      self.current_user = user
-
+    if self.current_user = User.authenticate(params[:email], params[:password])
       flash[:notice] = "Logged in successfully."
       redirect_to params[:redirect].presence || groups_url
     else
-      #logout_killing_session!
       flash.now[:error] = "Invalid login or password."
-      render :action => 'new'
+      render :new
     end
   end
 
