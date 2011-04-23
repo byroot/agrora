@@ -1,12 +1,12 @@
+<% content_for :content_title do %>
+    <h2>Login</h2>
+<% end %>
+
 <%= form_tag "/session/" do %>
   <%= hidden_field_tag :redirect, params[:redirect] %>
-  <div class="row">
-    <%= label_tag "email:" %>
-    <%= text_field_tag "email" %>
-  </div>
-  <div class="row">
-    <%= label_tag "password:" %>
-    <%= password_field_tag "password" %>
-  </div>
-  <%= submit_tag 'Login' %> or <%= link_to 'Signup', new_user_path %>
+  <table class="form-table">
+    <tr><td class="label"><%= label_tag "email:" %></td><td><%= text_field_tag "email" %></td></tr>
+    <tr><td class="label"><%= label_tag "password:" %></td><td><%= password_field_tag "password" %></td></tr>
+    <tr><td class="button" colspan=2><%= submit_tag 'Login' %> or <%= link_to 'Signup', new_user_path %></td></tr>
+  </table>
 <% end %>

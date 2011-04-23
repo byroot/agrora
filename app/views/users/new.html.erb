@@ -1,7 +1,13 @@
+<% content_for :content_title do %>
+    <h2>Sign Up</h2>
+<% end %>
+
 <%= form_for @user do |f| %>
+    <table class="form-table">
     <%= render 'shared/error_messages', :target => @user %>
     
     <%= render 'form', :f => f %>
     
-    <%= f.submit %>
+    <tr><td class="button" colspan=2><%= f.submit %></td></tr>
+    </table>
 <%- end -%>

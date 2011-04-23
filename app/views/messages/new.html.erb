@@ -3,12 +3,13 @@
 </div>
 
 <div class="preview"></div>
+
 <div class="response">
     <%= form_for @message, :url => group_topic_messages_path(@group, @topic, params.slice(:parent)) do |f| %>
-        
+        <table class="form-table">
         <%= render 'messages/form', :message => @message, :f => f %>
         
-        <%= f.submit %>
-        
+        <tr><td class="button" colspan=2><%= f.submit %></td></tr>
+        </table>
     <%- end -%>
 </div>

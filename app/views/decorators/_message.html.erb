@@ -11,7 +11,7 @@
     </div>
     <div class="actions">
         <%- unless defined?(dont_render_responses) -%>
-            <%= link_to 'Reply', new_group_topic_message_path(@group, @topic, :parent => message.indexes.join('-')) %>
+            <%= link_to 'Reply', new_group_topic_message_path(@group, @topic, :parent => message.indexes.join('-')), :class => 'button-link' %>
         <%- end -%>
     </div>
     <%= render 'decorators/child_nodes', :parent => message unless defined?(dont_render_responses) %>

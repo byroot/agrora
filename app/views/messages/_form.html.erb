@@ -1,11 +1,4 @@
-<%= render 'shared/error_messages', :target => message %>
+  <%= render 'shared/error_messages', :target => message %>
 
-<div class="row">
-    <%= f.label :subject %>
-    <%= f.text_field :subject %>
-</div>
-
-<div class="row">
-    <%= f.label :body %>
-    <%= f.text_area :body %>
-</div>
+  <tr><td class="label"><%= f.label :subject %></td><td><%= f.text_field :subject %></td></tr>
+  <tr><td class="label"><%= f.label :body %></td><td><%= f.text_area :body, :cols => 90, :rows => 20 %></td></tr>

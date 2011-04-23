@@ -1,6 +1,6 @@
 <p class="pagination">
-    <%= link_to 'previous', paginator.previous_page_url, :class => 'previous' unless paginator.first? %>
-    <%= link_to 'first', paginator.first_page_url, :class => 'first' %>
+    <%= link_to 'previous', paginator.previous_page_url, :class => 'previous button-link' unless paginator.first? %>
+    <%= link_to 'first', paginator.first_page_url, :class => 'first button-link' %>
     
     <%- start_index = [paginator.page - 4, 1].max -%>
     
@@ -20,6 +20,6 @@
     
     <%- if end_index < paginator.pages_count -%>...<%- end -%>
     
-    <%= link_to 'last', paginator.last_page_url, :class => 'last' %>
-    <%= link_to 'next', paginator.next_page_url, :class => 'next' unless paginator.last? %>
+    <%= link_to 'last', paginator.last_page_url, :class => 'last button-link' %>
+    <%= link_to 'next', paginator.next_page_url, :class => 'next button-link' unless paginator.last? %>
 </p>

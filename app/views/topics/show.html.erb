@@ -1,1 +1,11 @@
+<% content_for :header_menu do %>
+    <ul>
+        <li><%= link_to "Discussion groups", groups_path %></li>
+        <li>></li>
+        <li><%= link_to @group.name, group_topics_path(@group) %></li>
+        <li>></li>
+        <li><%= truncate(@topic.subject) %></li>
+    </ul>
+<% end %>
+
 <%= decorate(@topic) %>
