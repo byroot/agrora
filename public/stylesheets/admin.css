@@ -1,0 +1,26 @@
+/* General */
+
+a { color: #A60000; text-decoration: none; }
+.button-link:link, .button-link:visited { color: #A60000; background-color: #F7F5EB; }
+.button-link:hover { background-color: #A60000; color: #FFFFFF; }
+
+/* Header */
+
+#header-title a:hover { color: #A60000; }
+
+/* Sub-Header-Menu */
+
+#sub-header-menu { background-color: #A60000; }
+
+/* Servers List */
+
+.servers-list { width: 80%; margin: 0 auto; }
+.servers-list td { padding: 0.5em 1em; text-align: center; }
+
+/* Groups List */
+
+.groups-list { font-style: italic; margin-left: 25px; }
+
+/* Footer */
+
+#footer-content a:hover { color: #A60000; text-decoration: none; }

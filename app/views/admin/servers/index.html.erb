@@ -1,5 +1,16 @@
-<h1> NNTP Servers </h1>
-<table>
+<% content_for :header_menu do %>
+    <ul>
+        <li><%= link_to 'Admin Dashboard', admin_root_path %></li>
+        <li>></li>
+        <li>NNTP Servers</li>
+    </ul>
+<% end %>
+
+<% content_for :content_title do %>
+    <h2>NNTP Servers</h2>
+<% end %>
+
+<table class="servers-list">
     <tr>
         <th>Host</th>
         <th>Groups</th>
@@ -9,9 +20,11 @@
     <tr>
         <td><%= link_to server.hostname, admin_server_path(server) %></td>
         <td><%= server.groups.count %></td>
-        <td><%= link_to 'Delete', admin_server_path(server), :confirm => true %></td>
+        <td><%= link_to 'Delete', admin_server_path(server), :confirm => 'Êtes-vous certain de vouloir supprimer ce serveur de votre liste ?' %></td>
     </tr>
     <%- end -%>
 </table>
 
-<%= link_to 'Add server', new_admin_server_path %>
+<br/>
+<br/>
+<%= link_to 'Add server', new_admin_server_path, :class => 'button-link' %>

@@ -1,4 +1,16 @@
-<h1><%= @server.hostname %></h1>
+<% content_for :header_menu do %>
+    <ul>
+        <li><%= link_to 'Admin Dashboard', admin_root_path %></li>
+        <li>></li>
+        <li><%= link_to 'NNTP Servers', admin_servers_path %></li>
+        <li>></li>
+        <li><%= @server.hostname %></li>
+    </ul>
+<% end %>
+
+<% content_for :content_title do %>
+    <h2><%= @server.hostname %></h2>
+<% end %>
 
 <p>port: <%= @server.port %></p>
 
@@ -7,12 +19,13 @@
     <p>secret: <%= @server.secret %></p>
 <%- end -%>
 
-<h2> Groups </h2>
+<h3> Groups </h3>
 
-<ul>
+<ul class="groups-list">
     <%- @server.groups.each do |group| -%>
         <li><%= group.name %></li>
     <%- end -%>
 </ul>
 
-<%= link_to 'Add/Remove groups', new_admin_server_group_path(@server) %>
+<br/>
+<%= link_to 'Add or Remove groups', new_admin_server_group_path(@server), :class => 'button-link' %>  <%= link_to 'Edit server', edit_admin_server_path(@server), :class => 'button-link' %>

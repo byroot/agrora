@@ -9,7 +9,7 @@
         <table class="form-table">
         <%= render 'messages/form', :message => @message, :f => f %>
         
-        <tr><td class="button" colspan=2><%= f.submit %></td></tr>
+        <tr><td class="button" colspan=2><%= f.submit %>  or  <%= link_to 'Cancel', group_topic_path(@group, @topic) %></td></tr>
         </table>
     <%- end -%>
 </div>

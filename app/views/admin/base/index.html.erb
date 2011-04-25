@@ -1,5 +1,13 @@
-<h1>Admin dashbord</h1>
+<% content_for :header_menu do %>
+    <ul>
+        <li><%= link_to 'Admin Dashboard', '/admin' %></li>
+    </ul>
+<% end %>
 
-<p><%= link_to 'Servers configuration', admin_servers_path %></p>
+<% content_for :content_title do %>
+    <h2>Admin Dashboard</h2>
+<% end %>
 
-<p><%= link_to 'Worker administration', '/admin/worker/' %></p>
+<p><%= link_to 'Servers configuration', admin_servers_path, :class => 'button-link' %></p>
+<br/>
+<p><%= link_to 'Worker administration', '/admin/worker/', :class => 'button-link' %></p>

@@ -1,7 +1,22 @@
+<% content_for :header_menu do %>
+    <ul>
+        <li><%= link_to 'Admin Dashboard', admin_root_path %></li>
+        <li>></li>
+        <li><%= link_to 'NNTP Servers', admin_servers_path %></li>
+        <li>></li>
+        <li><%= @server.hostname %></li>
+    </ul>
+<% end %>
+
+<% content_for :content_title do %>
+    <h2><%= @server.hostname %></h2>
+<% end %>
+
 <%= form_for @server, :url => edit_admin_server_path(@server) do |f| %>
     <%= render 'shared/error_messages', :target => @server %>
     
+    <table class="form-table">
     <%= render 'form', :f => f %>
-    
-    <%= f.submit %>
+    <tr><td class="button" colspan=2><%= f.submit %>  or  <%= link_to 'Cancel', admin_servers_path %></td></tr>
+    </table> 
 <%- end -%>
