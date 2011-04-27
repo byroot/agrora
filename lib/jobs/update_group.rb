@@ -9,6 +9,10 @@ module Jobs
     
     extend Resque::Plugins::Lock
     
+    def self.lock(group_name)
+      "update-group:#{group_name}"
+    end
+    
     def initialize(group_name)
       @group_name = group_name
     end

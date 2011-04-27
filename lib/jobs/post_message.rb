@@ -7,9 +7,13 @@ module Jobs
     
     extend Resque::Plugins::Lock
     
+    def self.lock(indexes)
+      "post-message:#{indexes.join('-')}"
+    end
+    
     def initialize(indexes)
       @topic = Topic.where(:index => indexes.first).first
-      @message = @topic.find_message_by_indexes(message_indexes)
+      @message = @topic.find_message_by_indexes(indexes)
     end
     
     def perform!
@@ -46,7 +50,7 @@ module Jobs
     protected
     
     def servers
-      @server ||= Group.where(:name => @topic.groups.first).map(&:servers).uniq
+      @server ||= Group.where(:name => @topic.groups.first).map(&:servers).flatten.uniq
     end
     
   end
