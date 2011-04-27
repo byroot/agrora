@@ -2,7 +2,7 @@ class TopicsController < BaseController
   
   include Paginate::ControllerExtension
   
-  before_filter :trigger_group_update_if_necessary!
+  before_filter :trigger_group_update_if_necessary!, :only => :index
   
   require_permission :create_message, :only => [:new, :create]
   
@@ -39,7 +39,7 @@ class TopicsController < BaseController
   end
   
   def trigger_group_update_if_necessary!
-    Resque.enqueue(Jobs::UpdateGroup, group.name) if group.last_synchronisation_at < 10.minutes.ago
+    Resque.enqueue(Jobs::UpdateGroup, group.name)
   end
   
   def pagination_params
